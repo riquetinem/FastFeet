@@ -29,7 +29,48 @@ class RecipientController {
   }
 
   async update(req, res) {
-    return res.json({ ok: true });
+    const { recipientId } = req.params;
+
+    // a unica verificacao mais necessaria eh o numero continuar como numero
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      rua: Yup.string(),
+      numero: Yup.number(),
+      complemento: Yup.string(),
+      estado: Yup.string(),
+      cidade: Yup.string(),
+      bairro: Yup.string(),
+      cep: Yup.string(),
+    });
+
+    if (!(await schema.isValid(req.body)))
+      return res.status(400).json({ error: 'Validations fails' });
+
+    const recipient = await Recipient.findByPk(recipientId);
+
+    const {
+      id,
+      name,
+      rua,
+      cep,
+      complemento,
+      cidade,
+      estado,
+      bairro,
+      numero,
+    } = await recipient.update(req.body);
+
+    return res.json({
+      id,
+      name,
+      cep,
+      bairro,
+      rua,
+      numero,
+      complemento,
+      estado,
+      cidade,
+    });
   }
 }
 
