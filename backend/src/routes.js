@@ -36,6 +36,7 @@ routes.put('/recipient/:recipientId', RecipientController.update);
 // rotas de entregador
 routes.get('/deliveryman', DeliverymanController.index);
 routes.post('/deliveryman', DeliverymanController.store);
+routes.put('/deliveryman/:deliverymanId', DeliverymanController.update);
 
 // rota de envio de arquivo
 routes.post('/files', upload.single('file'), FileController.store);

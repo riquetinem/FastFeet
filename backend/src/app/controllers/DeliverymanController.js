@@ -14,6 +14,7 @@ class DeliverymanController {
           attributes: ['path', 'name', 'url'],
         },
       ],
+      order: ['id'],
     });
 
     return res.json(deliverymans);
@@ -25,6 +26,7 @@ class DeliverymanController {
       email: Yup.string()
         .email()
         .required(),
+      avatar_id: Yup.number(),
     });
 
     if (!(await schema.isValid(req.body)))
@@ -47,7 +49,30 @@ class DeliverymanController {
   }
 
   async update(req, res) {
-    return res.json({ ok: true });
+    const { deliverymanId } = req.params;
+
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+      avatar_id: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body)))
+      return res.status(400).json({ error: 'Validations fails' });
+
+    const deliveryman = await Deliveryman.findByPk(deliverymanId);
+
+    if (!deliveryman)
+      return res.status(404).json({ error: 'Deliveryman not found' });
+
+    const { id, name, email, avatar_id } = await deliveryman.update(req.body);
+
+    return res.json({
+      id,
+      name,
+      email,
+      avatar_id,
+    });
   }
 
   async delete(req, res) {
