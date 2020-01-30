@@ -76,7 +76,15 @@ class DeliverymanController {
   }
 
   async delete(req, res) {
-    return res.json({ ok: true });
+    const { deliverymanId } = req.params;
+
+    const deliveryman = await Deliveryman.destroy({
+      where: { id: deliverymanId },
+    });
+
+    if (deliveryman) return res.send(200).json({ deleted: true });
+
+    return res.send(404);
   }
 }
 
