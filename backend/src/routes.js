@@ -8,6 +8,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import RecipientController from './app/controllers/RecipientController';
 import FileController from './app/controllers/FileController';
+import DeliverymanController from './app/controllers/DeliverymanController';
 
 // importacao das middlewares
 import authMiddleware from './app/middlewares/auth';
@@ -31,6 +32,9 @@ routes.use(authMiddleware);
 // rotas de destinatario
 routes.post('/recipient', RecipientController.store);
 routes.put('/recipient/:recipientId', RecipientController.update);
+
+// rotas de entregador
+routes.post('/deliveryman', DeliverymanController.store);
 
 // rota de envio de arquivo
 routes.post('/files', upload.single('file'), FileController.store);
