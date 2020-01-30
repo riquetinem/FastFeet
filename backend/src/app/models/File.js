@@ -13,8 +13,12 @@ class File extends Model {
           },
         },
       },
-      { sequelize }
+      {
+        sequelize,
+      }
     );
+
+    return this;
   }
 }
 
