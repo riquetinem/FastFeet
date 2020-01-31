@@ -12,6 +12,7 @@ import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
 import ViewDeliveriesController from './app/controllers/ViewDeliveriesController';
 import ChangeDeliveryController from './app/controllers/ChangeDeliveryController';
+import AvailableController from './app/controllers/AvailableController';
 
 // importacao das middlewares
 import authMiddleware from './app/middlewares/auth';
@@ -28,11 +29,14 @@ routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
 // rotas das funcionalidades do entregador
-// listar todas as encomendas dele
+// listar todas as encomendas do entregador
 routes.get(
   '/deliveryman/:deliverymanId/deliveries',
   ViewDeliveriesController.index
 );
+
+// mostrar horarios disponiveis
+routes.get('/deliveryman/available', AvailableController.index);
 
 // alterar o status da entrega
 // retirar a entrega do fornecedor
