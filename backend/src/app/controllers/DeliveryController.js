@@ -106,6 +106,20 @@ class DeliveryController {
 
     return res.json(delivery);
   }
+
+  async delete(req, res) {
+    const { deliveryId } = req.params;
+
+    const delivery = await Delivery.destroy({
+      where: {
+        id: deliveryId,
+      },
+    });
+
+    if (delivery) return res.send(200).json({ deleted: true });
+
+    return res.send(404);
+  }
 }
 
 export default new DeliveryController();

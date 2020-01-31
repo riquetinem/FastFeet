@@ -44,6 +44,7 @@ routes.delete('/deliveryman/:deliverymanId', DeliverymanController.delete);
 routes.get('/delivery', DeliveryController.index);
 routes.post('/delivery', DeliveryController.store);
 routes.put('/delivery/:deliveryId', DeliveryController.update);
+routes.delete('/delivery/:deliveryId', DeliveryController.delete);
 
 // rota de envio de arquivo
 routes.post('/files', upload.single('file'), FileController.store);
