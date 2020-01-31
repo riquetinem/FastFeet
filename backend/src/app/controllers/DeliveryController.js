@@ -7,6 +7,9 @@ import Recipient from '../models/Recipient';
 import File from '../models/File';
 import Delivery from '../models/Delivery';
 
+import DeliveryMail from '../jobs/DeliveryMail';
+import Queue from '../../lib/Queue';
+
 class DeliveryController {
   async store(req, res) {
     const schema = Yup.object().shape({
@@ -30,10 +33,29 @@ class DeliveryController {
     if (!recipient)
       return res.status(401).json({ error: 'Recipient not found' });
 
-    const delivery = await Delivery.create({
+    const { id } = await Delivery.create({
       deliveryman_id,
       recipient_id,
       product,
+    });
+
+    const delivery = await Delivery.findByPk(id, {
+      include: [
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    await Queue.add(DeliveryMail.key, {
+      delivery,
     });
 
     return res.json(delivery);
