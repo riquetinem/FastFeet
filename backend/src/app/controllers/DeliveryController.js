@@ -76,6 +76,36 @@ class DeliveryController {
 
     return res.json(delivery);
   }
+
+  async update(req, res) {
+    const { deliveryId } = req.params;
+
+    const { deliveryman_id, recipient_id } = req.body;
+
+    if (deliveryman_id || recipient_id)
+      return res
+        .status(401)
+        .json({ error: 'You cannot change the deliveryman or recipient' });
+
+    const delivery = await Delivery.findByPk(deliveryId, {
+      include: [
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    delivery.update(req.body);
+
+    return res.json(delivery);
+  }
 }
 
 export default new DeliveryController();
