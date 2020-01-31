@@ -10,7 +10,7 @@ class DeliveryMail {
 
     await MailConfig.sendMail({
       to: `${delivery.deliveryman.name} <${delivery.deliveryman.email}>`,
-      subject: 'Nova entrega',
+      subject: 'Nova entrega!',
       template: 'sendDelivery',
       context: {
         deliveryman: delivery.deliveryman.name,
