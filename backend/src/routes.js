@@ -11,6 +11,7 @@ import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
 import ViewDeliveriesController from './app/controllers/ViewDeliveriesController';
+import ChangeDeliveryController from './app/controllers/ChangeDeliveryController';
 
 // importacao das middlewares
 import authMiddleware from './app/middlewares/auth';
@@ -27,9 +28,17 @@ routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
 // rotas das funcionalidades do entregador
+// listar todas as encomendas dele
 routes.get(
   '/deliveryman/:deliverymanId/deliveries',
   ViewDeliveriesController.index
+);
+
+// alterar o status da entrega
+// retirar a entrega do fornecedor
+routes.put(
+  '/delivery/:deliveryId/start/:deliverymanId',
+  ChangeDeliveryController.store
 );
 
 // setando a middleware para as rotas depois dela
