@@ -41,6 +41,7 @@ routes.put('/deliveryman/:deliverymanId', DeliverymanController.update);
 routes.delete('/deliveryman/:deliverymanId', DeliverymanController.delete);
 
 // rotas de entregas
+routes.get('/delivery', DeliveryController.index);
 routes.post('/delivery', DeliveryController.store);
 
 // rota de envio de arquivo

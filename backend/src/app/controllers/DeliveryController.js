@@ -8,6 +8,25 @@ import DeliveryMail from '../jobs/DeliveryMail';
 import Queue from '../../lib/Queue';
 
 class DeliveryController {
+  async index(req, res) {
+    const deliveries = await Delivery.findAll({
+      include: [
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name', 'rua', 'cep', 'numero'],
+        },
+      ],
+    });
+
+    return res.json(deliveries);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       product: Yup.string().required(),
