@@ -10,6 +10,7 @@ import RecipientController from './app/controllers/RecipientController';
 import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
+import ViewDeliveriesController from './app/controllers/ViewDeliveriesController';
 
 // importacao das middlewares
 import authMiddleware from './app/middlewares/auth';
@@ -24,6 +25,12 @@ routes.post('/users', UserController.store);
 
 // rota para criar uma sessao
 routes.post('/sessions', SessionController.store);
+
+// rotas das funcionalidades do entregador
+routes.get(
+  '/deliveryman/:deliverymanId/deliveries',
+  ViewDeliveriesController.index
+);
 
 // setando a middleware para as rotas depois dela
 routes.use(authMiddleware);
