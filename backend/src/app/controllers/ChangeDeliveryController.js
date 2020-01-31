@@ -1,4 +1,13 @@
-import { startOfDay, endOfDay } from 'date-fns';
+import {
+  startOfDay,
+  endOfDay,
+  setHours,
+  setMinutes,
+  setSeconds,
+  format,
+  isAfter,
+  isBefore,
+} from 'date-fns';
 import { Op } from 'sequelize';
 
 import Delivery from '../models/Delivery';
@@ -23,6 +32,28 @@ class ChangeDeliveryController {
     if (!delivery) return res.status(404).json({ error: 'Delivery not found' });
 
     const searchDate = Number(date);
+
+    const deliveryTime = ['08:00', '18:00'];
+
+    const availables = deliveryTime.map(time => {
+      const [hour, minute] = time.split(':');
+      const value = setSeconds(
+        setMinutes(setHours(searchDate, hour), minute),
+        0
+      );
+
+      return {
+        time,
+        value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
+        available:
+          time === deliveryTime[1]
+            ? isAfter(value, new Date())
+            : isBefore(value, new Date()),
+      };
+    });
+
+    if (!(availables[0].available && availables[1].available))
+      return res.status(400).json({ error: 'Wait for delivery time' });
 
     const { count } = await Delivery.findAndCountAll({
       where: {
