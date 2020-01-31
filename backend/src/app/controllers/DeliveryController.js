@@ -1,10 +1,7 @@
 import * as Yup from 'yup';
 
-import pt from 'date-fns/locale/pt';
-
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
-import File from '../models/File';
 import Delivery from '../models/Delivery';
 
 import DeliveryMail from '../jobs/DeliveryMail';
