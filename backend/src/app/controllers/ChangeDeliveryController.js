@@ -21,7 +21,7 @@ class ChangeDeliveryController {
 
     const deliveryman = await Deliveryman.findByPk(deliverymanId);
 
-    if (!deliverymanId)
+    if (!deliveryman)
       return res.status(404).json({ error: 'Deliveryman not found' });
 
     const delivery = await Delivery.findOne({
