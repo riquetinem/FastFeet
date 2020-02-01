@@ -13,6 +13,7 @@ import DeliveryController from './app/controllers/DeliveryController';
 import ViewDeliveriesController from './app/controllers/ViewDeliveriesController';
 import ChangeDeliveryController from './app/controllers/ChangeDeliveryController';
 import AvailableController from './app/controllers/AvailableController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 // importacao das middlewares
 import authMiddleware from './app/middlewares/auth';
@@ -44,11 +45,15 @@ routes.post(
   '/delivery/:deliveryId/start/:deliverymanId',
   ChangeDeliveryController.store
 );
+// realizar a entrega da encomenda
 routes.put(
   '/delivery/:deliveryId/end/:deliverymanId',
   upload.single('file'),
   ChangeDeliveryController.update
 );
+
+// rotas relacionadas a problema da entrega
+routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
 
 // setando a middleware para as rotas depois dela
 routes.use(authMiddleware);
