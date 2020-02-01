@@ -40,9 +40,14 @@ routes.get('/deliveryman/available', AvailableController.index);
 
 // alterar o status da entrega
 // retirar a entrega do fornecedor
-routes.put(
+routes.post(
   '/delivery/:deliveryId/start/:deliverymanId',
   ChangeDeliveryController.store
+);
+routes.put(
+  '/delivery/:deliveryId/end/:deliverymanId',
+  upload.single('file'),
+  ChangeDeliveryController.update
 );
 
 // setando a middleware para as rotas depois dela

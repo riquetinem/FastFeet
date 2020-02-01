@@ -9,9 +9,11 @@ import {
   isBefore,
 } from 'date-fns';
 import { Op } from 'sequelize';
+import * as Yup from 'yup';
 
 import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
+import File from '../models/File';
 
 class ChangeDeliveryController {
   async store(req, res) {
@@ -70,6 +72,51 @@ class ChangeDeliveryController {
         .json({ error: 'You can only make five withdrawals a day' });
 
     delivery.start_date = new Date();
+    delivery.save();
+
+    return res.json(delivery);
+  }
+
+  async update(req, res) {
+    const { deliveryId, deliverymanId } = req.params;
+
+    const schema = Yup.object().shape({
+      originalname: Yup.string().required(),
+      filename: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid(req.file)))
+      return res.status(401).json({ error: 'Validations fails' });
+
+    const deliveryman = await Deliveryman.findByPk(deliverymanId);
+
+    if (!deliveryman)
+      return res.status(404).json({ error: 'Deliveryman not found' });
+
+    const delivery = await Delivery.findOne({
+      where: {
+        id: deliveryId,
+        deliveryman_id: deliverymanId,
+        canceled_at: null,
+      },
+    });
+
+    if (!delivery) return res.status(404).json({ error: 'Delivery not found' });
+
+    if (!delivery.start_date)
+      return res
+        .status(404)
+        .json({ error: 'This delivery has not been picked up' });
+
+    const { originalname: name, filename: path } = req.file;
+
+    const { id } = await File.create({
+      name,
+      path,
+    });
+
+    delivery.end_date = new Date();
+    delivery.signature_id = id;
     delivery.save();
 
     return res.json(delivery);
