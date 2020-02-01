@@ -14,6 +14,7 @@ import ViewDeliveriesController from './app/controllers/ViewDeliveriesController
 import ChangeDeliveryController from './app/controllers/ChangeDeliveryController';
 import AvailableController from './app/controllers/AvailableController';
 import DeliveryProblemController from './app/controllers/DeliveryProblemController';
+import ProblemsController from './app/controllers/ProblemsController';
 
 // importacao das middlewares
 import authMiddleware from './app/middlewares/auth';
@@ -76,6 +77,9 @@ routes.get('/delivery', DeliveryController.index);
 routes.post('/delivery', DeliveryController.store);
 routes.put('/delivery/:deliveryId', DeliveryController.update);
 routes.delete('/delivery/:deliveryId', DeliveryController.delete);
+
+// listagem de problemas
+routes.get('/delivery/problems', ProblemsController.index);
 
 // rota de envio de arquivo
 routes.post('/files', upload.single('file'), FileController.store);
