@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 
 import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
+import DeliveryProblem from '../models/DeliveryProblem';
 import File from '../models/File';
 
 class ChangeDeliveryController {
@@ -117,6 +118,26 @@ class ChangeDeliveryController {
 
     delivery.end_date = new Date();
     delivery.signature_id = id;
+    delivery.save();
+
+    return res.json(delivery);
+  }
+
+  async delete(req, res) {
+    const { problemId } = req.params;
+
+    const { delivery_id } = await DeliveryProblem.findByPk(problemId);
+
+    const delivery = await Delivery.findByPk(delivery_id);
+
+    if (!delivery) return res.status(400).json({ error: 'Delivery not found' });
+
+    if (delivery.canceled_at)
+      return res
+        .status(400)
+        .json({ error: 'Delivery has already been canceled' });
+
+    delivery.canceled_at = new Date();
     delivery.save();
 
     return res.json(delivery);

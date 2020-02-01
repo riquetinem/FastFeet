@@ -78,8 +78,14 @@ routes.post('/delivery', DeliveryController.store);
 routes.put('/delivery/:deliveryId', DeliveryController.update);
 routes.delete('/delivery/:deliveryId', DeliveryController.delete);
 
-// listagem de problemas
+// rotas de problemas da entrega
+// listagem de todos as entregas com problemas *
 routes.get('/delivery/problems', ProblemsController.index);
+// deletar/cancelar a entrega
+routes.delete(
+  '/problem/:problemId/cancel-delivery',
+  ChangeDeliveryController.delete
+);
 
 // rota de envio de arquivo
 routes.post('/files', upload.single('file'), FileController.store);
