@@ -4,6 +4,17 @@ import DeliveryProblem from '../models/DeliveryProblem';
 import Delivery from '../models/Delivery';
 
 class DeliveryProblemController {
+  async index(req, res) {
+    const { deliveryId } = req.params;
+
+    const problems = await DeliveryProblem.findAll({
+      where: { delivery_id: deliveryId },
+      include: [{ model: Delivery, as: 'delivery', attributes: ['product'] }],
+    });
+
+    return res.json(problems);
+  }
+
   async store(req, res) {
     const { deliveryId } = req.params;
 

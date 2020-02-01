@@ -53,6 +53,7 @@ routes.put(
 );
 
 // rotas relacionadas a problema da entrega
+routes.get('/delivery/:deliveryId/problems', DeliveryProblemController.index);
 routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
 
 // setando a middleware para as rotas depois dela
