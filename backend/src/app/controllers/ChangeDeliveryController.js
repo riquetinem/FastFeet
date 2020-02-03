@@ -14,7 +14,11 @@ import * as Yup from 'yup';
 import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
 import DeliveryProblem from '../models/DeliveryProblem';
+import Recipient from '../models/Recipient';
 import File from '../models/File';
+
+import CancelDelivery from '../jobs/CancelDelivery';
+import Queue from '../../lib/Queue';
 
 class ChangeDeliveryController {
   async store(req, res) {
@@ -128,7 +132,20 @@ class ChangeDeliveryController {
 
     const { delivery_id } = await DeliveryProblem.findByPk(problemId);
 
-    const delivery = await Delivery.findByPk(delivery_id);
+    const delivery = await Delivery.findByPk(delivery_id, {
+      include: [
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name'],
+        },
+      ],
+    });
 
     if (!delivery) return res.status(400).json({ error: 'Delivery not found' });
 
@@ -139,6 +156,10 @@ class ChangeDeliveryController {
 
     delivery.canceled_at = new Date();
     delivery.save();
+
+    await Queue.add(CancelDelivery.key, {
+      delivery,
+    });
 
     return res.json(delivery);
   }

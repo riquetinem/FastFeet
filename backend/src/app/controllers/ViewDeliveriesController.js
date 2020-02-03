@@ -1,7 +1,6 @@
 import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
-import File from '../models/File';
 
 class ViewDeliveriesController {
   async index(req, res) {
