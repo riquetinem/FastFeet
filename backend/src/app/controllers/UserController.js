@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 
 import User from '../models/User';
 
+// controller para usuarios que podem se autenticar
 class UserController {
   async store(req, res) {
     const schema = Yup.object().shape({

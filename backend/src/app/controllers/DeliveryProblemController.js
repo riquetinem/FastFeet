@@ -3,7 +3,9 @@ import * as Yup from 'yup';
 import DeliveryProblem from '../models/DeliveryProblem';
 import Delivery from '../models/Delivery';
 
+// controller para problemas na entrega/encomenda
 class DeliveryProblemController {
+  // lista todos os problemas da entrega
   async index(req, res) {
     const { deliveryId } = req.params;
 
@@ -15,6 +17,7 @@ class DeliveryProblemController {
     return res.json(problems);
   }
 
+  // cadastra problemas na entrega/encomenda
   async store(req, res) {
     const { deliveryId } = req.params;
 
@@ -38,6 +41,7 @@ class DeliveryProblemController {
 
     if (!delivery) return res.status(404).json({ erro: 'Delivery not found' });
 
+    // verifica se a encomenda ainda nao foi retirada
     if (!delivery.start_date)
       return res
         .status(404)

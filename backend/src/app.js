@@ -19,6 +19,8 @@ class App {
 
   midlewares() {
     this.server.use(express.json());
+
+    // passando o path de onde vao os arquivos upados
     this.server.use(
       '/files',
       express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
@@ -30,6 +32,7 @@ class App {
   }
 
   exceptionHandler() {
+    // mostra erros mais "precisos" quando estiver no desenvolvimento da aplicacao
     this.server.use(async (err, req, res, next) => {
       if (process.env.NODE_ENV === 'development') {
         const erros = await new Youch(err, req).toJSON();

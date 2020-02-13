@@ -18,6 +18,8 @@ class File extends Model {
       }
     );
 
+    // url: o get() serve para criar um link "ficticio" de ondeo  arquivo se encontra
+
     return this;
   }
 }

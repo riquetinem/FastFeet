@@ -2,11 +2,14 @@ import Bee from 'bee-queue';
 
 import redisConfig from '../config/redis';
 
+// importando os "jobs" que seria os emails
 import DeliveryMail from '../app/jobs/DeliveryMail';
 import CancelDelivery from '../app/jobs/CancelDelivery';
 
+// seta todos os emaisl que podem ser enviados
 const jobs = [DeliveryMail, CancelDelivery];
 
+// Configuracao da fila para poder enviar emails
 class Queue {
   constructor() {
     this.queues = {};

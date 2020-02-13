@@ -2,10 +2,12 @@ import Delivery from '../models/Delivery';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 
+// controller para mostrar as encomendas do entregador
 class ViewDeliveriesController {
   async index(req, res) {
     const { deliverymanId } = req.params;
 
+    // mostra apenas as que nao foram entregues, retiradas e que sao apenas do entregador
     const deliveries = await Delivery.findAll({
       where: {
         deliveryman_id: deliverymanId,

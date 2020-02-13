@@ -4,6 +4,7 @@ import exphbs from 'express-handlebars';
 import nodemailerhbs from 'nodemailer-express-handlebars';
 import mailConfig from '../config/mail';
 
+// configurando o envio de email
 class MailConfig {
   constructor() {
     const { host, port, secure, auth } = mailConfig;
@@ -19,6 +20,7 @@ class MailConfig {
   }
 
   configureTemplates() {
+    // seta o path dos templates para serem utilizados nos emails
     const viewPath = resolve(__dirname, '..', 'app', 'views', 'emails');
 
     this.transporter.use(

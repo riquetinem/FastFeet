@@ -7,7 +7,9 @@ import Delivery from '../models/Delivery';
 import DeliveryMail from '../jobs/DeliveryMail';
 import Queue from '../../lib/Queue';
 
+// controller responsavel para as entregas
 class DeliveryController {
+  // retorna todas as entregas
   async index(req, res) {
     const deliveries = await Delivery.findAll({
       include: [
@@ -27,7 +29,9 @@ class DeliveryController {
     return res.json(deliveries);
   }
 
+  // cria a entrega
   async store(req, res) {
+    // verifica se as informacoes foram passadas
     const schema = Yup.object().shape({
       product: Yup.string().required(),
       recipient_id: Yup.number().required(),
@@ -41,11 +45,13 @@ class DeliveryController {
 
     const deliveryman = await Deliveryman.findByPk(deliveryman_id);
 
+    // verifica se o entregador realmente existe
     if (!deliveryman)
       return res.status(401).json({ error: 'Deliveryman not found' });
 
     const recipient = await Recipient.findByPk(recipient_id);
 
+    // verifica se o destinatario realmente existe
     if (!recipient)
       return res.status(401).json({ error: 'Recipient not found' });
 
@@ -70,6 +76,7 @@ class DeliveryController {
       ],
     });
 
+    // envia um email para o entregador falando que ele possui uma nova entrega a ser feita
     await Queue.add(DeliveryMail.key, {
       delivery,
     });
@@ -77,6 +84,7 @@ class DeliveryController {
     return res.json(delivery);
   }
 
+  // faz alteracao na entrega
   async update(req, res) {
     const { deliveryId } = req.params;
 
@@ -107,9 +115,11 @@ class DeliveryController {
     return res.json(delivery);
   }
 
+  // deleta a entrega
   async delete(req, res) {
     const { deliveryId } = req.params;
 
+    // deleta a entrega
     const delivery = await Delivery.destroy({
       where: {
         id: deliveryId,

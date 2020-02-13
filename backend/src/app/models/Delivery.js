@@ -17,6 +17,7 @@ class Delivery extends Model {
     return this;
   }
 
+  // define as relacoes da tabela
   static associate(models) {
     this.belongsTo(models.Recipient, {
       foreignKey: 'recipient_id',

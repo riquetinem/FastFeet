@@ -8,6 +8,7 @@ class DeliveryMail {
   async handle({ data }) {
     const { delivery } = data;
 
+    // seta o corpo do email, e passa as informacoes para o mesmo
     await MailConfig.sendMail({
       to: `${delivery.deliveryman.name} <${delivery.deliveryman.email}>`,
       subject: 'Nova entrega!',

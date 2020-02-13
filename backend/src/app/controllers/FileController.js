@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import File from '../models/File';
 
+// controller para o upload de arquivos
 class FileController {
   async store(req, res) {
     const schema = Yup.object().shape({

@@ -1,5 +1,6 @@
 import { setHours, setMinutes, setSeconds, format, isAfter } from 'date-fns';
 
+// controller para retornar os horarios disponiveis naquele dia (pega por hora atual e o dia atual)
 class AvailableController {
   async index(req, res) {
     const { date } = req.query;
@@ -22,6 +23,7 @@ class AvailableController {
       '18:00',
     ];
 
+    // funcao para formatar as datas e falar se sao disponiveis ou nao
     const available = deliveryTime.map(time => {
       const [hour, minute] = time.split(':');
       const value = setSeconds(

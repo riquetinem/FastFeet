@@ -1,10 +1,15 @@
 import DeliveryProblem from '../models/DeliveryProblem';
 import Delivery from '../models/Delivery';
 
+// controller dedicado a usuarios autenticados para mexer com os problemas
 class ProblemsController {
   async index(req, res) {
-    // posteriormente tentar arrumar aqui para fazer que apareca UMA entrega com seus problemas
-    // atualmente esta aparecendo TODAS OS PROBLEMAS sem nenhum tipo de agrupamento
+    /**
+     * TODO:
+     * - mostrar UMA entrega com TODOS os problemas
+     * -------ATUALMENTE-------
+     * - mostra TODOS os problemas e junto dele a entrega sem nenhum tipo de agrupamento
+     */
     const problems = await DeliveryProblem.findAll({
       include: [{ model: Delivery, as: 'delivery' }],
     });

@@ -3,7 +3,9 @@ import * as Yup from 'yup';
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
 
+// controller para o entregador
 class DeliverymanController {
+  // lista todos os entregadores ordenados pelo id
   async index(req, res) {
     const deliverymans = await Deliveryman.findAll({
       attributes: ['id', 'name', 'email'],
@@ -20,6 +22,7 @@ class DeliverymanController {
     return res.json(deliverymans);
   }
 
+  // cria um novo entregador
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -32,6 +35,7 @@ class DeliverymanController {
     if (!(await schema.isValid(req.body)))
       return res.status(400).json({ error: 'Validations fails' });
 
+    // verifica se o email ja esta em uso
     const deliverymanExists = await Deliveryman.findOne({
       where: { email: req.body.email },
     });
@@ -48,6 +52,7 @@ class DeliverymanController {
     });
   }
 
+  // faz as alteracoes no entregador
   async update(req, res) {
     const { deliverymanId } = req.params;
 
@@ -75,6 +80,7 @@ class DeliverymanController {
     });
   }
 
+  // deleta o entregador
   async delete(req, res) {
     const { deliverymanId } = req.params;
 

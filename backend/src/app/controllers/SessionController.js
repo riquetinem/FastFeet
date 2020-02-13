@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import authConfig from '../../config/auth';
 import User from '../models/User';
 
+// controller para criar a sessao do usuario
 class SessionController {
   async store(req, res) {
     const schema = Yup.object().shape({
@@ -20,13 +21,13 @@ class SessionController {
 
     const user = await User.findOne({ where: { email } });
 
-    if (!user) return res.status(401).json({ error: 'User not found' });
-
-    if (!(await user.checkPassword(password)))
-      return res.status(401).json({ error: "Password doesn't match" });
+    // verifica se a senha esta correta ou se o usuario nao foi encontrado
+    if (!(await user.checkPassword(password)) || !user)
+      return res.status(401).json({ error: 'User or password are wrong!' });
 
     const { id, name } = user;
 
+    // retorna o usuario logado e o jwt
     return res.json({
       user: {
         id,

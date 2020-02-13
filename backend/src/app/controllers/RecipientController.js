@@ -2,7 +2,9 @@ import * as Yup from 'yup';
 
 import Recipient from '../models/Recipient';
 
+// controller para o destinatario
 class RecipientController {
+  // realizar o cadastro
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -28,6 +30,7 @@ class RecipientController {
     });
   }
 
+  // realizar a atualizacao do destinatario
   async update(req, res) {
     const { recipientId } = req.params;
 

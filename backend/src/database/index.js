@@ -26,6 +26,8 @@ class Database {
       .map(model => model.init(this.connection))
       .map(model => model.associate && model.associate(this.connection.models));
   }
+  // model.associate, verifica se a tabela possui algum tipo de relacionamento,
+  // e se sim, executa o relacionamento
 }
 
 export default new Database();
