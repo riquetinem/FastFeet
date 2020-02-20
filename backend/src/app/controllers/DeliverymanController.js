@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
@@ -7,7 +8,13 @@ import File from '../models/File';
 class DeliverymanController {
   // lista todos os entregadores ordenados pelo id
   async index(req, res) {
+    const whereStatement = {};
+    const { q } = req.query;
+
+    if (q) whereStatement.name = { [Op.iLike]: `%${q}%` };
+
     const deliverymans = await Deliveryman.findAll({
+      where: whereStatement,
       attributes: ['id', 'name', 'email'],
       include: [
         {

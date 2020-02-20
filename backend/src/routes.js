@@ -63,6 +63,7 @@ routes.use(authMiddleware);
 // rotas autenticadas
 
 // rotas de destinatario
+routes.get('/recipient', RecipientController.index);
 routes.post('/recipient', RecipientController.store);
 routes.put('/recipient/:recipientId', RecipientController.update);
 

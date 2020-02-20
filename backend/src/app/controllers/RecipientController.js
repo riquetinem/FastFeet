@@ -1,9 +1,25 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 
 import Recipient from '../models/Recipient';
 
 // controller para o destinatario
 class RecipientController {
+  // retorna todos os destinatarios
+  async index(req, res) {
+    const whereStatement = {};
+    const { q } = req.query;
+
+    if (q) whereStatement.name = { [Op.iLike]: `%${q}%` };
+
+    const recipients = await Recipient.findAll({
+      where: whereStatement,
+      attributes: ['id', 'name', 'cep'],
+    });
+
+    return res.json(recipients);
+  }
+
   // realizar o cadastro
   async store(req, res) {
     const schema = Yup.object().shape({
