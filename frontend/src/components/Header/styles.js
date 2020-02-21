@@ -26,8 +26,13 @@ export const Content = styled.div`
 
     a {
       font-weight: bold;
-      color: #444444;
-      margin-right: 5px;
+      color: #999999;
+      margin-right: 15px;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #444444;
+      }
     }
   }
 
@@ -52,8 +57,9 @@ export const Profile = styled.div`
       color: #333;
     }
 
-    a {
+    button {
       display: block;
+      border: none;
       margin-top: 2px;
       font-size: 12px;
       color: #de3b3b;

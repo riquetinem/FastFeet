@@ -31,7 +31,9 @@ export default function Header() {
           <Profile>
             <div>
               <strong>{profile.name}</strong>
-              <Link onClick={handleSignOut}>Sair</Link>
+              <button type="button" onClick={handleSignOut}>
+                SAIR DO SISTEMA
+              </button>
             </div>
           </Profile>
         </aside>
