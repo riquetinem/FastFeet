@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import Youch from 'youch';
 
 import routes from './routes';
@@ -20,6 +21,7 @@ class App {
   midlewares() {
     this.server.use(express.json());
 
+    this.server.use(cors());
     // passando o path de onde vao os arquivos upados
     this.server.use(
       '/files',
