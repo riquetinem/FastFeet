@@ -14,13 +14,18 @@ class DeliveryController {
   // retorna todas as entregas
   async index(req, res) {
     const whereStatement = {};
-    const { q } = req.query;
+    const { q, page = 1 } = req.query;
+
+    const limit = 10;
+    const offset = (page - 1) * limit;
 
     if (q) whereStatement.product = { [Op.iLike]: `%${q}%` };
 
-    const deliveries = await Delivery.findAll({
+    const deliveries = await Delivery.findAndCountAll({
       where: whereStatement,
       order: ['id'],
+      limit,
+      offset,
       include: [
         {
           model: Deliveryman,
@@ -51,8 +56,10 @@ class DeliveryController {
         },
       ],
     });
+    const next = !(offset + limit >= deliveries.count);
 
-    return res.json(deliveries);
+    deliveries.next = next;
+    return res.json({ deliveries });
   }
 
   // cria a entrega

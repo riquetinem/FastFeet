@@ -1,19 +1,26 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
+import { Form, Input } from '@rocketseat/unform';
+import { MdAdd, MdSearch, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
-import { Container, Content } from './styles';
+import { Container, Content, PageButtons } from './styles';
 import Actions from '~/components/Actions';
 
 import api from '~/services/api';
 
 export default function Deliveries() {
   const [deliveries, setDeliveries] = useState([]);
+  const [next, setNext] = useState(false);
+  const [page, setPage] = useState(1);
+  const [product, setProduct] = useState('');
 
   useEffect(() => {
     async function loadDeliveries() {
-      const res = await api.get('/delivery');
+      const res = await api.get('/delivery', {
+        params: { page, q: product },
+      });
 
-      const data = res.data.map(response => ({
+      const data = res.data.deliveries.rows.map(response => ({
         ...response,
         id: `00${response.id}`.slice(-2),
         status: response.canceled_at
@@ -23,20 +30,44 @@ export default function Deliveries() {
           : response.start_date
           ? 'Retirada'
           : 'Pendente',
-        // canceled: !!response.canceled_at,
-        // deliveried: !!response.end_date,
-        // retired: !!response.start_date,
+        canceled: !!response.canceled_at,
+        deliveried: !!response.end_date,
+        retired: !!response.start_date,
       }));
 
+      setNext(res.data.deliveries.next);
       setDeliveries(data);
     }
 
     loadDeliveries();
-  }, []);
+    console.tron.log(product);
+  }, [next, page, product]);
 
+  function handlePrev() {
+    setPage(page - 1);
+  }
+
+  function handleNext() {
+    setPage(page + 1);
+  }
   return (
     <Container>
       <h2>Gerenciando encomendas</h2>
+      <div id="first-row">
+        <Form>
+          <MdSearch size={16} color="#999999" />
+          <Input
+            name="delivery"
+            placeholder="Buscar por encomendas"
+            onChange={e => setProduct(e.target.value)}
+            value={product}
+          />
+        </Form>
+
+        <button type="button">
+          <MdAdd size={30} color="#fff" /> Cadastrar
+        </button>
+      </div>
       <Content>
         <thead>
           <tr>
@@ -70,10 +101,10 @@ export default function Deliveries() {
                   <li> {delivery.deliveryman.name}</li>
                 </ul>
               </td>
-              <td>São Paulo</td>
-              <td>São Paulo</td>
+              <td>{delivery.recipient.cidade}</td>
+              <td>{delivery.recipient.estado}</td>
               <td>
-                <p canceled={delivery.status}>{delivery.status}</p>
+                <p>{delivery.status}</p>
               </td>
               <td>
                 <Actions />
@@ -82,6 +113,26 @@ export default function Deliveries() {
           ))}
         </tbody>
       </Content>
+      <PageButtons>
+        {page !== 1 ? (
+          <button type="button" id="prev" onClick={handlePrev}>
+            <MdChevronLeft size={20} color="#fff" />
+          </button>
+        ) : (
+          <button type="button" id="thisDisable" disabled>
+            <MdChevronLeft size={20} color="#fff" />
+          </button>
+        )}
+        {next ? (
+          <button type="button" id="next" onClick={handleNext}>
+            <MdChevronRight size={20} color="#fff" />
+          </button>
+        ) : (
+          <button type="button" id="thisDisable" disabled>
+            <MdChevronRight size={20} color="#fff" />
+          </button>
+        )}
+      </PageButtons>
     </Container>
   );
 }

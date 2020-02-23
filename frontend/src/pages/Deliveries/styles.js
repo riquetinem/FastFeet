@@ -9,6 +9,43 @@ export const Container = styled.div`
     margin-left: 10%;
     font-size: 24px;
   }
+
+  div#first-row {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-bottom: 30px;
+    width: 80%;
+
+    form {
+      display: flex;
+      align-items: center;
+
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+    }
+
+    input {
+      font-size: 14px;
+      width: 237px;
+      height: 36px;
+      border: 0;
+      padding: 5px;
+    }
+
+    button {
+      margin-right: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 142px;
+      height: 36px;
+      border-radius: 4px;
+      background: #7d40e7;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
 `;
 
 export const Content = styled.table`
@@ -39,7 +76,7 @@ export const Content = styled.table`
     color: #666;
     font-size: 16px;
 
-    p {
+    > p {
       border-radius: 16px;
       width: 40%;
       font-weight: bold;
@@ -73,5 +110,38 @@ export const Content = styled.table`
         }
       }
     }
+  }
+`;
+
+export const PageButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10%;
+  width: 80%;
+
+  button {
+    margin-right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 36px;
+    border-radius: 4px;
+    background: #7519c1;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  button#prev {
+    color: red;
+  }
+
+  button#thisDisable {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  button#next {
+    margin-left: 90%;
   }
 `;
