@@ -7,11 +7,16 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   height: 64px;
-  max-width: 900px;
+
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  box-shadow: 0 1px 1px #ddd;
+  margin-bottom: 34px;
+
+  position: relative;
 
   nav {
     display: flex;
@@ -63,6 +68,7 @@ export const Profile = styled.div`
       margin-top: 2px;
       font-size: 12px;
       color: #de3b3b;
+      background: #f5f5f5;
     }
   }
 `;

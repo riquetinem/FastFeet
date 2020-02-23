@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 import Delivery from '../models/Delivery';
+import File from '../models/File';
 
 import DeliveryMail from '../jobs/DeliveryMail';
 import Queue from '../../lib/Queue';
@@ -19,16 +20,34 @@ class DeliveryController {
 
     const deliveries = await Delivery.findAll({
       where: whereStatement,
+      order: ['id'],
       include: [
         {
           model: Deliveryman,
           as: 'deliveryman',
           attributes: ['name', 'email'],
+
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['path', 'name', 'url'],
+            },
+          ],
         },
         {
           model: Recipient,
           as: 'recipient',
-          attributes: ['name', 'rua', 'cep', 'numero'],
+          attributes: [
+            'name',
+            'rua',
+            'cep',
+            'numero',
+            'estado',
+            'cidade',
+            'bairro',
+            'complemento',
+          ],
         },
       ],
     });
