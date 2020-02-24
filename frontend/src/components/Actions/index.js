@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import {
   MdMoreHoriz,
   MdRemoveRedEye,
@@ -6,15 +8,23 @@ import {
   MdDeleteForever,
 } from 'react-icons/md';
 
-import api from '~/services/api';
+import * as DeliveryActions from '~/store/modules/deliveries/actions';
 
 import { Container, Badge, ActionList, Action } from './styles';
 
-export default function Actions() {
+export default function Actions({ id }) {
   const [visible, setVisible] = useState(false);
+
+  const dispatch = useDispatch();
 
   function handleToggleVisible() {
     setVisible(!visible);
+  }
+
+  async function deleteAction(idSelected) {
+    // const res = await api.delete(`/delivery/${idSelected}`);
+
+    dispatch(DeliveryActions.deleteRequest(idSelected));
   }
 
   return (
@@ -34,7 +44,7 @@ export default function Actions() {
             <MdCreate color="#4D85EE" size={15} /> Editar
           </p>
         </Action>
-        <Action>
+        <Action onClick={() => deleteAction(id)}>
           <p>
             <MdDeleteForever color="#DE3B3B" size={15} /> Excluir
           </p>
@@ -43,3 +53,7 @@ export default function Actions() {
     </Container>
   );
 }
+
+Actions.propTypes = {
+  id: PropTypes.element.isRequired,
+};

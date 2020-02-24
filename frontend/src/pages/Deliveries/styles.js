@@ -52,6 +52,17 @@ export const Content = styled.table`
   width: 80%;
   align-self: center;
 
+  h1 {
+    display: flex;
+    position: absolute;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+    margin-top: 2%;
+    color: #999;
+  }
+
   thead th:first-child,
   thead th:last-child {
     width: 3%;
@@ -118,6 +129,7 @@ export const PageButtons = styled.div`
   justify-content: space-between;
   margin-left: 10%;
   width: 80%;
+  margin-top: 1%;
 
   button {
     margin-right: 30px;

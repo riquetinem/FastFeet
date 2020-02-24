@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import { MdAdd, MdSearch, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
@@ -13,6 +14,8 @@ export default function Deliveries() {
   const [next, setNext] = useState(false);
   const [page, setPage] = useState(1);
   const [product, setProduct] = useState('');
+
+  const deleted = useSelector(state => state.deliveries.deleted);
 
   useEffect(() => {
     async function loadDeliveries() {
@@ -41,7 +44,7 @@ export default function Deliveries() {
 
     loadDeliveries();
     console.tron.log(product);
-  }, [next, page, product]);
+  }, [next, page, product, deleted]);
 
   function handlePrev() {
     setPage(page - 1);
@@ -82,36 +85,38 @@ export default function Deliveries() {
         </thead>
 
         <tbody>
-          {deliveries.map(delivery => (
-            <tr key={delivery.id}>
-              <td>#{delivery.id}</td>
-              <td>{delivery.recipient.name}</td>
-              <td>
-                <ul>
-                  <li>
-                    <img
-                      src={
-                        delivery.deliveryman.avatar
-                          ? delivery.deliveryman.avatar.url
-                          : 'https://api.adorable.io/avatars/285/seeea.png'
-                      }
-                      alt="avatar"
-                    />
-                  </li>
-                  <li> {delivery.deliveryman.name}</li>
-                </ul>
-              </td>
-              <td>{delivery.recipient.cidade}</td>
-              <td>{delivery.recipient.estado}</td>
-              <td>
-                <p>{delivery.status}</p>
-              </td>
-              <td>
-                <Actions />
-              </td>
-            </tr>
-          ))}
+          {deliveries.length > 0 &&
+            deliveries.map(delivery => (
+              <tr key={delivery.id}>
+                <td>#{delivery.id}</td>
+                <td>{delivery.recipient.name}</td>
+                <td>
+                  <ul>
+                    <li>
+                      <img
+                        src={
+                          delivery.deliveryman.avatar
+                            ? delivery.deliveryman.avatar.url
+                            : 'https://api.adorable.io/avatars/285/seeea.png'
+                        }
+                        alt="avatar"
+                      />
+                    </li>
+                    <li> {delivery.deliveryman.name}</li>
+                  </ul>
+                </td>
+                <td>{delivery.recipient.cidade}</td>
+                <td>{delivery.recipient.estado}</td>
+                <td>
+                  <p>{delivery.status}</p>
+                </td>
+                <td>
+                  <Actions id={delivery.id} />
+                </td>
+              </tr>
+            ))}
         </tbody>
+        {deliveries.length === 0 && <h1>Nenhuma encomenda foi encontrada</h1>}
       </Content>
       <PageButtons>
         {page !== 1 ? (
