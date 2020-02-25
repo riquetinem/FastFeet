@@ -10,11 +10,21 @@ class ProblemsController {
      * -------ATUALMENTE-------
      * - mostra TODOS os problemas e junto dele a entrega sem nenhum tipo de agrupamento
      */
-    const problems = await DeliveryProblem.findAll({
+    const { page = 1 } = req.query;
+
+    const limit = 10;
+    const offset = (page - 1) * limit;
+
+    const problems = await DeliveryProblem.findAndCountAll({
+      limit,
+      offset,
       include: [{ model: Delivery, as: 'delivery' }],
     });
 
-    return res.json(problems);
+    const next = !(offset + limit >= problems.count);
+
+    problems.next = next;
+    return res.json({ problems });
   }
 }
 

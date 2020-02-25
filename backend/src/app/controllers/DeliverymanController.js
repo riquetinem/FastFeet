@@ -9,13 +9,18 @@ class DeliverymanController {
   // lista todos os entregadores ordenados pelo id
   async index(req, res) {
     const whereStatement = {};
-    const { q } = req.query;
+    const { q, page = 1 } = req.query;
 
     if (q) whereStatement.name = { [Op.iLike]: `%${q}%` };
 
-    const deliverymans = await Deliveryman.findAll({
+    const limit = 10;
+    const offset = (page - 1) * limit;
+
+    const deliverymans = await Deliveryman.findAndCountAll({
       where: whereStatement,
       attributes: ['id', 'name', 'email'],
+      limit,
+      offset,
       include: [
         {
           model: File,
@@ -25,8 +30,10 @@ class DeliverymanController {
       ],
       order: ['id'],
     });
+    const next = !(offset + limit >= deliverymans.count);
 
-    return res.json(deliverymans);
+    deliverymans.next = next;
+    return res.json({ deliverymans });
   }
 
   // cria um novo entregador

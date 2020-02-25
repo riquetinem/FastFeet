@@ -8,16 +8,23 @@ class RecipientController {
   // retorna todos os destinatarios
   async index(req, res) {
     const whereStatement = {};
-    const { q } = req.query;
+    const { q, page = 1 } = req.query;
+
+    const limit = 10;
+    const offset = (page - 1) * limit;
 
     if (q) whereStatement.name = { [Op.iLike]: `%${q}%` };
 
-    const recipients = await Recipient.findAll({
+    const recipients = await Recipient.findAndCountAll({
       where: whereStatement,
+      limit,
+      offset,
       attributes: ['id', 'name', 'cep'],
     });
+    const next = !(offset + limit >= recipients.count);
 
-    return res.json(recipients);
+    recipients.next = next;
+    return res.json({ recipients });
   }
 
   // realizar o cadastro
