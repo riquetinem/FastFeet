@@ -11,3 +11,23 @@ export function deleteSuccess(deliveries) {
     payload: { deliveries },
   };
 }
+
+export function cancelRequest(id) {
+  return {
+    type: '@deliveries/CANCEL_REQUEST',
+    payload: { id },
+  };
+}
+
+export function cancelSuccess(deliveries) {
+  return {
+    type: '@deliveries/CANCEL_SUCCESS',
+    payload: { deliveries },
+  };
+}
+
+export function errorFunction() {
+  return {
+    type: '@deliveries/ERROR',
+  };
+}

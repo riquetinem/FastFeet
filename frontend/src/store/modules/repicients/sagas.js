@@ -12,10 +12,10 @@ function* deleteRecipient({ payload }) {
     const res = yield call(api.delete, `/recipient/${id}`);
 
     yield put(deleteSuccess(res.data));
-    toast.success('Entregador deletado com sucesso!');
+    toast.success('Destinatário deletado com sucesso!');
     history.push('/recipients');
   } catch (err) {
-    toast.error('Erro ao deletar o entregador!');
+    toast.error('Erro ao deletar o destinatário!');
   }
 }
 

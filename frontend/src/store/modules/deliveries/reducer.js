@@ -18,6 +18,24 @@ export default function deliveries(state = INITIAL_STATE, action) {
 
         break;
       }
+
+      case '@deliveries/CANCEL_REQUEST': {
+        draft.deleted = false;
+
+        break;
+      }
+
+      case '@deliveries/CANCEL_SUCCESS': {
+        draft.deleted = false;
+
+        break;
+      }
+
+      case '@deliveries/ERROR': {
+        draft.deleted = false;
+
+        break;
+      }
       default:
     }
   });
