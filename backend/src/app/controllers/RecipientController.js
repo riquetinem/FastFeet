@@ -101,6 +101,19 @@ class RecipientController {
       cidade,
     });
   }
+
+  // deleta o destinatario
+  async delete(req, res) {
+    const { recipientId } = req.params;
+
+    const recipient = await Recipient.destroy({
+      where: { id: recipientId },
+    });
+
+    if (recipient) return res.send(200).json({ deleted: true });
+
+    return res.send(404);
+  }
 }
 
 export default new RecipientController();
