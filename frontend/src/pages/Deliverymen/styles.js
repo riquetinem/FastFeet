@@ -14,7 +14,6 @@ export const Content = styled.table`
     position: absolute;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
     width: 75%;
     margin-top: 2%;
     color: #999;
@@ -26,11 +25,6 @@ export const Content = styled.table`
     text-align: left;
     padding: 8px;
     font-size: 16px;
-
-    &:first-child,
-    &:last-child {
-      width: 3%;
-    }
 
     &:last-child {
       text-align: center;
@@ -47,39 +41,11 @@ export const Content = styled.table`
       text-align: center;
     }
 
-    > p {
-      border-radius: 16px;
-      width: 40%;
-      font-weight: bold;
-
-      background: rgba(0, 0, 0, 0.1);
-
-      /**TODO:
-        Verificar o status que esta vindo do corpo da pagina e trocar aqui no styled
-        para a cor certa:
-        Entregue: #2CA42B
-        Pendente: #C1BC35
-        Cancelado: #DE3B3B
-        Retirada: #4D85EE
-      */
-    }
-
-    ul {
-      display: flex;
-      list-style: none;
-
-      li {
-        display: flex;
-        align-items: center;
-
-        img {
-          align-items: center;
-          border-radius: 50%;
-          width: 21px;
-          height: 21px;
-          margin-right: 13px;
-        }
-      }
+    img {
+      align-items: center;
+      border-radius: 50%;
+      width: 21px;
+      height: 21px;
     }
   }
 `;
@@ -95,7 +61,6 @@ export const PageButtons = styled.div`
     margin-right: 30px;
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 50px;
     height: 36px;
     border-radius: 4px;

@@ -22,7 +22,7 @@ export default function Header() {
         <nav>
           <img src={logo} alt="GoBarber" />
           <Link to="/deliveries"> ENCOMENDAS </Link>
-          <Link to="/"> ENTREGADORES </Link>
+          <Link to="/deliverymen"> ENTREGADORES </Link>
           <Link to="/"> DESTINATÁRIOS </Link>
           <Link to="/"> PROBLEMAS </Link>
         </nav>
