@@ -17,6 +17,13 @@ export default function ActionsProblems({ id }) {
   }
 
   async function deleteAction(idSelected) {
+    // eslint-disable-next-line no-alert
+    const confirm = window.confirm(
+      'Tem certeza que deseja cancelar está encomenda?'
+    );
+
+    if (!confirm) return;
+
     dispatch(DeliveryActions.cancelRequest(idSelected));
   }
 

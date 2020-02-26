@@ -17,6 +17,13 @@ export default function ActionsDeliveries({ id }) {
   }
 
   async function deleteAction(idSelected) {
+    // eslint-disable-next-line no-alert
+    const confirm = window.confirm(
+      'Tem certeza que deseja deletar este entregador?'
+    );
+
+    if (!confirm) return;
+
     dispatch(DeliverymanActions.deleteRequest(idSelected));
   }
 

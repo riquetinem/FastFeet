@@ -17,6 +17,13 @@ export default function ActionsRecipients({ id }) {
   }
 
   async function deleteAction(idSelected) {
+    // eslint-disable-next-line no-alert
+    const confirm = window.confirm(
+      'Tem certeza que deseja deletar este destinatário?'
+    );
+
+    if (!confirm) return;
+
     dispatch(RecipientActions.deleteRequest(idSelected));
   }
 

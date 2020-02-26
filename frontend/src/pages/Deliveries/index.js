@@ -28,7 +28,6 @@ export default function Deliveries() {
       const data = res.data.deliveries.rows.map(response => ({
         ...response,
         idFormated: `00${response.id}`.slice(-2),
-
         status: response.canceled_at
           ? 'Cancelado'
           : response.end_date

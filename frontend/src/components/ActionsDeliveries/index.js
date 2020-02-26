@@ -22,6 +22,13 @@ export default function ActionsDeliveries({ id }) {
   }
 
   async function deleteAction(idSelected) {
+    // eslint-disable-next-line no-alert
+    const confirm = window.confirm(
+      'Tem certeza que deseja deletar está encomenda?'
+    );
+
+    if (!confirm) return;
+
     dispatch(DeliveryActions.deleteRequest(idSelected));
   }
 
