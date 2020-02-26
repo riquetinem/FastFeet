@@ -39,8 +39,6 @@ export default function Recipients() {
     loadRecipients();
   }, [page, next, name, deleted]);
 
-  console.tron.log(page);
-
   function handlePrev() {
     setPage(page - 1);
   }
