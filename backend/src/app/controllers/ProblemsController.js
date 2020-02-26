@@ -18,7 +18,13 @@ class ProblemsController {
     const problems = await DeliveryProblem.findAndCountAll({
       limit,
       offset,
-      include: [{ model: Delivery, as: 'delivery' }],
+      include: [
+        {
+          model: Delivery,
+          as: 'delivery',
+          where: { canceled_at: null },
+        },
+      ],
     });
 
     const next = !(offset + limit >= problems.count);
