@@ -19,7 +19,6 @@ class RecipientController {
       where: whereStatement,
       limit,
       offset,
-      attributes: ['id', 'name', 'cep'],
     });
     const next = !(offset + limit >= recipients.count);
 
