@@ -24,16 +24,19 @@ export default function SignIn() {
   }
 
   return (
-    <>
+    <div id="component">
       <img src={logo} alt="Fast Feet" />
       <Form schema={schema} onSubmit={handleSubmit}>
+        <strong>SEU E-MAIL</strong>
         <Input name="email" type="email" placeholder="example@email.com" />
+
+        <strong>SUA SENHA</strong>
         <Input name="password" type="password" placeholder="******" />
 
         <button type="submit">
           {loading ? 'Carregando...' : 'Entrar no sistema'}
         </button>
       </Form>
-    </>
+    </div>
   );
 }

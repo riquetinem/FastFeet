@@ -56,9 +56,10 @@ class DeliveryController {
         },
       ],
     });
-    const next = !(offset + limit >= deliveries.count);
 
+    const next = !(offset + limit >= deliveries.count);
     deliveries.next = next;
+
     return res.json({ deliveries });
   }
 

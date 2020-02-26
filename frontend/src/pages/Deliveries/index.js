@@ -5,7 +5,9 @@ import { Form, Input } from '@rocketseat/unform';
 import { MdAdd, MdSearch, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
 import { Container, Content, PageButtons } from './styles';
+
 import ActionsDeliveries from '~/components/ActionsDeliveries';
+import Status from './Status';
 
 import api from '~/services/api';
 
@@ -26,6 +28,7 @@ export default function Deliveries() {
       const data = res.data.deliveries.rows.map(response => ({
         ...response,
         idFormated: `00${response.id}`.slice(-2),
+
         status: response.canceled_at
           ? 'Cancelado'
           : response.end_date
@@ -33,9 +36,6 @@ export default function Deliveries() {
           : response.start_date
           ? 'Retirada'
           : 'Pendente',
-        canceled: !!response.canceled_at,
-        deliveried: !!response.end_date,
-        retired: !!response.start_date,
       }));
 
       setNext(res.data.deliveries.next);
@@ -109,7 +109,9 @@ export default function Deliveries() {
                 <td>{delivery.recipient.cidade}</td>
                 <td>{delivery.recipient.estado}</td>
                 <td>
-                  <p>{delivery.status}</p>
+                  <p>
+                    <Status text={delivery.status} />
+                  </p>
                 </td>
                 <td>
                   <ActionsDeliveries id={delivery.id} />

@@ -48,20 +48,7 @@ export const Content = styled.table`
     }
 
     > p {
-      border-radius: 16px;
-      width: 40%;
-      font-weight: bold;
-
-      background: rgba(0, 0, 0, 0.1);
-
-      /**TODO:
-        Verificar o status que esta vindo do corpo da pagina e trocar aqui no styled
-        para a cor certa:
-        Entregue: #2CA42B
-        Pendente: #C1BC35
-        Cancelado: #DE3B3B
-        Retirada: #4D85EE
-      */
+      width: 50%;
     }
 
     ul {
