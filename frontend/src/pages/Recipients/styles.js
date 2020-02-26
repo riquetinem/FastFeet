@@ -41,13 +41,6 @@ export const Content = styled.table`
     &:last-child {
       text-align: center;
     }
-
-    img {
-      align-items: center;
-      border-radius: 50%;
-      width: 21px;
-      height: 21px;
-    }
   }
 `;
 

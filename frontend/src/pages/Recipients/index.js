@@ -3,36 +3,43 @@ import { useSelector } from 'react-redux';
 import { MdSearch, MdAdd, MdChevronRight, MdChevronLeft } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 
-import { Container, Content, PageButtons } from './styles';
-import ActionsDeliverymen from '~/components/ActionsDeliverymen';
+import ActionsRecipients from '~/components/ActionsRecipients';
 
 import api from '~/services/api';
 
-export default function Deliverymens() {
-  const [deliverymen, setDeliverymen] = useState([]);
+import { Container, Content, PageButtons } from './styles';
+
+export default function Recipients() {
+  const [recipients, setRecipients] = useState([]);
   const [name, setName] = useState('');
   const [page, setPage] = useState(1);
   const [next, setNext] = useState(false);
 
-  const deleted = useSelector(state => state.deliverymen.deleted);
+  const deleted = useSelector(state => state.recipients.deleted);
 
   useEffect(() => {
-    async function loadDeliverymen() {
-      const res = await api.get('/deliveryman', {
+    async function loadRecipients() {
+      const res = await api.get('/recipient', {
         params: { page, q: name },
       });
 
-      const data = res.data.deliverymans.rows.map(response => ({
+      const data = res.data.recipients.rows.map(response => ({
         ...response,
         idFormated: `00${response.id}`.slice(-2),
+        endereco: `${response.rua},
+         ${response.numero},
+         ${response.bairro} -
+         ${response.cidade}`,
       }));
 
-      setNext(res.data.deliverymans.next);
-      setDeliverymen(data);
+      setNext(res.data.recipients.next);
+      setRecipients(data);
     }
 
-    loadDeliverymen();
-  }, [name, page, next, deleted]);
+    loadRecipients();
+  }, [page, next, name, deleted]);
+
+  console.tron.log(page);
 
   function handlePrev() {
     setPage(page - 1);
@@ -44,13 +51,13 @@ export default function Deliverymens() {
 
   return (
     <Container>
-      <h2>Gerenciando entregadores</h2>
+      <h2>Gerenciando destinatários</h2>
       <div id="first-row">
         <Form>
           <MdSearch size={16} color="#999999" />
           <Input
-            name="delivery"
-            placeholder="Buscar por entregadores"
+            name="name"
+            placeholder="Buscar por destinatários"
             onChange={e => setName(e.target.value)}
             value={name}
           />
@@ -60,43 +67,34 @@ export default function Deliverymens() {
           <MdAdd size={30} color="#fff" /> Cadastrar
         </button>
       </div>
+
       <Content>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Foto</th>
             <th>Nome</th>
-            <th>Email</th>
+            <th>Endereço</th>
             <th>Ações</th>
           </tr>
         </thead>
-        {deliverymen.length > 0 ? (
+        {recipients.length > 0 ? (
           <tbody>
-            {deliverymen.map(deliveryman => (
-              <tr key={deliveryman.id}>
-                <td>#{deliveryman.idFormated}</td>
+            {recipients.map(recipient => (
+              <tr key={recipient.id}>
+                <td>#{recipient.idFormated}</td>
+                <td>{recipient.name}</td>
+                <td>{recipient.endereco}</td>
                 <td>
-                  <img
-                    src={
-                      deliveryman.avatar
-                        ? deliveryman.avatar.url
-                        : 'https://api.adorable.io/avatars/285/seeea.png'
-                    }
-                    alt="avatar"
-                  />
-                </td>
-                <td>{deliveryman.name}</td>
-                <td>{deliveryman.email}</td>
-                <td>
-                  <ActionsDeliverymen id={deliveryman.id} />
+                  <ActionsRecipients id={recipient.id} />
                 </td>
               </tr>
             ))}
           </tbody>
         ) : (
-          <h1>Nenhuma encomenda foi encontrada</h1>
+          <h1>Nenhum destinatário foi encontrado</h1>
         )}
       </Content>
+
       <PageButtons>
         {page !== 1 ? (
           <button type="button" id="prev" onClick={handlePrev}>

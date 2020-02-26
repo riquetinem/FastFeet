@@ -31,6 +31,8 @@ export const Action = styled.div`
   display: flex;
   align-content: center;
   justify-content: center;
+  cursor: pointer;
+
   & + div {
     margin-top: 15px;
     padding-top: 15px;
