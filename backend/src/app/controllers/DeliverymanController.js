@@ -8,6 +8,22 @@ import File from '../models/File';
 class DeliverymanController {
   // lista todos os entregadores ordenados pelo id
   async index(req, res) {
+    const { deliverymanId } = req.params;
+
+    if (deliverymanId) {
+      const deliveryman = await Deliveryman.findByPk(deliverymanId, {
+        include: [
+          {
+            model: File,
+            as: 'avatar',
+            attributes: ['id', 'path', 'name', 'url'],
+          },
+        ],
+      });
+
+      return res.json({ deliveryman });
+    }
+
     const whereStatement = {};
     const { q, page = 1 } = req.query;
 
