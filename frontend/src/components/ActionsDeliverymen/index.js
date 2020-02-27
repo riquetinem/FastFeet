@@ -5,6 +5,8 @@ import { MdMoreHoriz, MdCreate, MdDeleteForever } from 'react-icons/md';
 
 import * as DeliverymanActions from '~/store/modules/deliverymen/actions';
 
+import history from '~/services/history';
+
 import { Container, Badge, ActionList, Action } from './styles';
 
 export default function ActionsDeliveries({ id }) {
@@ -34,7 +36,7 @@ export default function ActionsDeliveries({ id }) {
       </Badge>
 
       <ActionList visible={visible}>
-        <Action>
+        <Action onClick={() => history.push(`/edit/deliveryman/${id}`)}>
           <p>
             <MdCreate color="#4D85EE" size={15} /> Editar
           </p>

@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { MdSearch, MdAdd, MdChevronRight, MdChevronLeft } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
+import { Link } from 'react-router-dom';
 
 import { Container, Content, PageButtons } from './styles';
 import ActionsDeliverymen from '~/components/ActionsDeliverymen';
+
+import icon from '~/assets/icon-default.svg';
 
 import api from '~/services/api';
 
@@ -56,9 +59,11 @@ export default function Deliverymens() {
           />
         </Form>
 
-        <button type="button">
-          <MdAdd size={30} color="#fff" /> Cadastrar
-        </button>
+        <Link to="/new/deliveryman">
+          <button type="button">
+            <MdAdd size={30} color="#fff" /> Cadastrar
+          </button>
+        </Link>
       </div>
       <Content>
         <thead>
@@ -77,11 +82,7 @@ export default function Deliverymens() {
                 <td>#{deliveryman.idFormated}</td>
                 <td>
                   <img
-                    src={
-                      deliveryman.avatar
-                        ? deliveryman.avatar.url
-                        : 'https://api.adorable.io/avatars/285/seeea.png'
-                    }
+                    src={deliveryman.avatar ? deliveryman.avatar.url : icon}
                     alt="avatar"
                   />
                 </td>

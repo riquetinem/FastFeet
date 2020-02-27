@@ -48,5 +48,10 @@ export const Wrapper = styled.div`
       color: #fff;
       font-weight: bold;
     }
+
+    button#back {
+      color: #000;
+      background: #cccccc;
+    }
   }
 `;

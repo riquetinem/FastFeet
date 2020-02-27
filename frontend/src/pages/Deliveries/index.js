@@ -42,7 +42,6 @@ export default function Deliveries() {
     }
 
     loadDeliveries();
-    console.tron.log(product);
   }, [next, page, product, deleted]);
 
   function handlePrev() {

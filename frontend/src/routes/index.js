@@ -8,6 +8,7 @@ import Deliveries from '../pages/Deliveries';
 import Deliverymen from '~/pages/Deliverymen';
 import Recipients from '~/pages/Recipients';
 import Problems from '~/pages/Problems';
+import Deliveryman from '~/pages/Deliveryman';
 
 export default function Routes() {
   return (
@@ -21,6 +22,10 @@ export default function Routes() {
       <Route path="/deliverymen" component={Deliverymen} isPrivate />
       <Route path="/recipients" component={Recipients} isPrivate />
       <Route path="/problems" component={Problems} isPrivate />
+
+      {/* Sub Rotas */}
+      <Route path="/new/deliveryman" component={Deliveryman} isPrivate />
+      <Route path="/edit/deliveryman/:id" component={Deliveryman} isPrivate />
     </Switch>
   );
 }

@@ -18,6 +18,7 @@ export default function deliveries(state = INITIAL_STATE, action) {
 
         break;
       }
+
       default:
     }
   });

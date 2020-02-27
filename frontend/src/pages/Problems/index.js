@@ -20,7 +20,6 @@ export default function Problems() {
       const res = await api.get('/delivery/problems', {
         params: { page },
       });
-      console.tron.log('executei');
       const data = res.data.problems.rows.map(response => ({
         ...response,
         idFormated: `${`00${response.delivery.id}`.slice(-2)} - ${
