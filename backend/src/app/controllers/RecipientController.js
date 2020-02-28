@@ -17,7 +17,13 @@ class RecipientController {
     }
 
     const whereStatement = {};
-    const { q, page = 1 } = req.query;
+    const { q, page = 1, all = false } = req.query;
+
+    if (all) {
+      const recipients = await Recipient.findAll({ order: ['name'] });
+
+      return res.json(recipients);
+    }
 
     const limit = 10;
     const offset = (page - 1) * limit;

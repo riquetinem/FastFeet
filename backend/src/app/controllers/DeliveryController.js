@@ -13,6 +13,26 @@ import Queue from '../../lib/Queue';
 class DeliveryController {
   // retorna todas as entregas
   async index(req, res) {
+    const { deliveryId } = req.params;
+
+    if (deliveryId) {
+      const delivery = await Delivery.findByPk(deliveryId, {
+        include: [
+          {
+            model: Deliveryman,
+            as: 'deliveryman',
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Recipient,
+            as: 'recipient',
+            attributes: ['id', 'name'],
+          },
+        ],
+      });
+
+      return res.json(delivery);
+    }
     const whereStatement = {};
     const { q, page = 1 } = req.query;
 
@@ -121,13 +141,6 @@ class DeliveryController {
   // faz alteracao na entrega
   async update(req, res) {
     const { deliveryId } = req.params;
-
-    const { deliveryman_id, recipient_id } = req.body;
-
-    if (deliveryman_id || recipient_id)
-      return res
-        .status(401)
-        .json({ error: 'You cannot change the deliveryman or recipient' });
 
     const delivery = await Delivery.findByPk(deliveryId, {
       include: [

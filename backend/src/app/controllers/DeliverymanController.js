@@ -25,7 +25,13 @@ class DeliverymanController {
     }
 
     const whereStatement = {};
-    const { q, page = 1 } = req.query;
+    const { q, page = 1, all = false } = req.query;
+
+    if (all) {
+      const deliverymans = await Deliveryman.findAll({ order: ['name'] });
+
+      return res.json(deliverymans);
+    }
 
     if (q) whereStatement.name = { [Op.iLike]: `%${q}%` };
 
