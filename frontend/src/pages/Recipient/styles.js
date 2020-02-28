@@ -21,10 +21,22 @@ export const Content = styled.div`
       flex-direction: row;
     }
 
+    /*TODO: Arrumar os strong, colocar labels mais bonitas e que nao fique desentralizadas
+
+    e arrumar tbm o layout pq ta bem estranho
+   */
     strong {
       margin-bottom: 10px;
       margin-top: 10px;
       margin-left: -58%;
+    }
+
+    strong#complemento {
+      margin-left: -55%;
+    }
+
+    strong#numero {
+      margin-left: -57%;
     }
 
     span {
@@ -43,6 +55,20 @@ export const Content = styled.div`
       margin: 0 0 10px;
       width: 60%;
       font-size: 18px;
+    }
+
+    div.endereco {
+      input#cep {
+        width: 130px;
+      }
+
+      button {
+        margin-left: 10px;
+        background: #3b9eff;
+        height: 44px;
+        width: 100px;
+        color: #fff;
+      }
     }
   }
 `;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { MdSearch, MdAdd, MdChevronRight, MdChevronLeft } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
+import { Link } from 'react-router-dom';
 
 import ActionsRecipients from '~/components/ActionsRecipients';
 
@@ -61,9 +62,11 @@ export default function Recipients() {
           />
         </Form>
 
-        <button type="button">
-          <MdAdd size={30} color="#fff" /> Cadastrar
-        </button>
+        <Link to="new/recipient">
+          <button type="button">
+            <MdAdd size={30} color="#fff" /> Cadastrar
+          </button>
+        </Link>
       </div>
 
       <Content>

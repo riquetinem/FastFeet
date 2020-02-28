@@ -64,6 +64,7 @@ routes.use(authMiddleware);
 
 // rotas de destinatario
 routes.get('/recipient', RecipientController.index);
+routes.get('/recipient/:recipientId', RecipientController.index);
 routes.post('/recipient', RecipientController.store);
 routes.put('/recipient/:recipientId', RecipientController.update);
 routes.delete('/recipient/:recipientId', RecipientController.delete);

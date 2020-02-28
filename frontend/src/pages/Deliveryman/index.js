@@ -33,7 +33,7 @@ export default function Deliveryman({ match }) {
       if (id) {
         const res = await api.get(`/deliveryman/${id}`);
 
-        const data = res.data.deliveryman;
+        const { data } = res;
 
         setDeliveryman(data);
       }

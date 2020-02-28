@@ -7,6 +7,15 @@ import Recipient from '../models/Recipient';
 class RecipientController {
   // retorna todos os destinatarios
   async index(req, res) {
+    // caso seja passado o id no param ele retorna apenas aquele destinatario
+    const { recipientId } = req.params;
+
+    if (recipientId) {
+      const recipient = await Recipient.findByPk(recipientId);
+
+      return res.json(recipient);
+    }
+
     const whereStatement = {};
     const { q, page = 1 } = req.query;
 
@@ -19,6 +28,7 @@ class RecipientController {
       where: whereStatement,
       limit,
       offset,
+      order: ['id'],
     });
     const next = !(offset + limit >= recipients.count);
 

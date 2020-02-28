@@ -21,7 +21,7 @@ class DeliverymanController {
         ],
       });
 
-      return res.json({ deliveryman });
+      return res.json(deliveryman);
     }
 
     const whereStatement = {};
