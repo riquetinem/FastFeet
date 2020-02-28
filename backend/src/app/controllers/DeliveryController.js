@@ -48,6 +48,11 @@ class DeliveryController {
       offset,
       include: [
         {
+          model: File,
+          as: 'signature',
+          attributes: ['path', 'name', 'url'],
+        },
+        {
           model: Deliveryman,
           as: 'deliveryman',
           attributes: ['name', 'email'],

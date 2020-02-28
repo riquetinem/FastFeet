@@ -1,4 +1,6 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
+import Popup from 'reactjs-popup';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
@@ -14,7 +16,7 @@ import * as DeliveryActions from '~/store/modules/deliveries/actions';
 
 import { Container, Badge, ActionList, Action } from './styles';
 
-export default function ActionsDeliveries({ id }) {
+export default function ActionsDeliveries({ delivery }) {
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -34,6 +36,64 @@ export default function ActionsDeliveries({ id }) {
     dispatch(DeliveryActions.deleteRequest(idSelected));
   }
 
+  const PopupExample = () => (
+    <Popup
+      trigger={
+        <Action>
+          <p>
+            <MdRemoveRedEye color="#8E5BE8" size={15} /> Visualizar
+          </p>
+        </Action>
+      }
+      modal
+    >
+      {close => (
+        <div className="modal">
+          <button type="button" className="close" onClick={close}>
+            &times;
+          </button>
+          <div className="header"> {delivery.product} </div>
+          <div className="content">
+            <h3>Informações da encomenda</h3>
+            <p>
+              {delivery.recipient.rua}, {delivery.recipient.numero}
+              {delivery.recipient.complemento &&
+                `(${delivery.recipient.complemento})`}
+              , {delivery.recipient.bairro}, {delivery.recipient.cidade} -{' '}
+              {delivery.recipient.estado}, {delivery.recipient.cep}
+            </p>
+
+            <hr />
+
+            <h3>Datas</h3>
+            <p>
+              <b>Retirada: </b>
+              {delivery.initialDate
+                ? delivery.initialDate
+                : 'A encomenda ainda não foi retirado'}
+            </p>
+            <p>
+              <b>Entrega: </b>{' '}
+              {delivery.canceled_at
+                ? `A encomenda foi cancelada (${delivery.canceledDate})`
+                : delivery.finalDate
+                ? delivery.finalDate
+                : 'A encomenda ainda não foi entregue'}
+            </p>
+
+            {delivery.finalDate && (
+              <>
+                <hr />
+                <h3>Assinatura do destinatário</h3>
+                <img src={delivery.signature.url} alt="Assinatura" />
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </Popup>
+  );
+  console.tron.log(delivery);
   return (
     <Container>
       <Badge onClick={handleToggleVisible}>
@@ -41,17 +101,14 @@ export default function ActionsDeliveries({ id }) {
       </Badge>
 
       <ActionList visible={visible}>
-        <Action>
-          <p>
-            <MdRemoveRedEye color="#8E5BE8" size={15} /> Visualizar
-          </p>
-        </Action>
-        <Action onClick={() => history.push(`/edit/delivery/${id}`)}>
+        <PopupExample />
+
+        <Action onClick={() => history.push(`/edit/delivery/${delivery.id}`)}>
           <p>
             <MdCreate color="#4D85EE" size={15} /> Editar
           </p>
         </Action>
-        <Action onClick={() => deleteAction(id)}>
+        <Action onClick={() => deleteAction(delivery.id)}>
           <p>
             <MdDeleteForever color="#DE3B3B" size={15} /> Excluir
           </p>
@@ -62,5 +119,5 @@ export default function ActionsDeliveries({ id }) {
 }
 
 ActionsDeliveries.propTypes = {
-  id: PropTypes.element.isRequired,
+  delivery: PropTypes.element.isRequired,
 };
