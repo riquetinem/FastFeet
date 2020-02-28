@@ -70,7 +70,7 @@ export default function Recipient({ match }) {
   }, [cep, id, recipient]);
 
   useEffect(() => {
-    async function loadDeliveryman() {
+    async function loadRecipient() {
       if (id) {
         if (id) {
           const res = await api.get(`/recipient/${id}`);
@@ -83,7 +83,7 @@ export default function Recipient({ match }) {
       }
     }
 
-    loadDeliveryman();
+    loadRecipient();
   }, [id]);
 
   async function handleSubmit(data) {

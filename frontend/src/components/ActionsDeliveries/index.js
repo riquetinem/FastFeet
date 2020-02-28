@@ -8,6 +8,8 @@ import {
   MdDeleteForever,
 } from 'react-icons/md';
 
+import history from '~/services/history';
+
 import * as DeliveryActions from '~/store/modules/deliveries/actions';
 
 import { Container, Badge, ActionList, Action } from './styles';
@@ -44,7 +46,7 @@ export default function ActionsDeliveries({ id }) {
             <MdRemoveRedEye color="#8E5BE8" size={15} /> Visualizar
           </p>
         </Action>
-        <Action>
+        <Action onClick={() => history.push(`/edit/delivery/${id}`)}>
           <p>
             <MdCreate color="#4D85EE" size={15} /> Editar
           </p>

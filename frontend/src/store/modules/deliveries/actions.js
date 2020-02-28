@@ -31,3 +31,31 @@ export function errorFunction() {
     type: '@deliveries/ERROR',
   };
 }
+
+export function addRequest(delivery) {
+  return {
+    type: '@deliveries/ADD_REQUEST',
+    payload: { delivery },
+  };
+}
+
+export function addSuccess(delivery) {
+  return {
+    type: '@deliveries/ADD_SUCCESS',
+    payload: { delivery },
+  };
+}
+
+export function updateRequest(delivery) {
+  return {
+    type: '@deliveries/UPDATE_REQUEST',
+    payload: { delivery },
+  };
+}
+
+export function updateSuccess(delivery) {
+  return {
+    type: '@deliveries/UPDATE_SUCCESS',
+    payload: { delivery },
+  };
+}

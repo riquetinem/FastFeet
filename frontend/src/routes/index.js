@@ -11,6 +11,7 @@ import Problems from '~/pages/Problems';
 
 import Deliveryman from '~/pages/Deliveryman';
 import Recipient from '~/pages/Recipient';
+import Delivery from '~/pages/Delivery';
 
 export default function Routes() {
   return (
@@ -31,6 +32,9 @@ export default function Routes() {
 
       <Route path="/new/recipient" component={Recipient} isPrivate />
       <Route path="/edit/recipient/:id" component={Recipient} isPrivate />
+
+      <Route path="/new/delivery" component={Delivery} isPrivate />
+      <Route path="/edit/delivery/:id" component={Delivery} isPrivate />
     </Switch>
   );
 }
