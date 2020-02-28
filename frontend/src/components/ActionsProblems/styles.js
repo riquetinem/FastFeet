@@ -2,6 +2,39 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   position: relative;
+
+  .modal {
+    font-size: 20px;
+  }
+  .modal > .header {
+    width: 100%;
+    border-bottom: 1px solid #000;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+  }
+  .modal > .content {
+    width: 100%;
+    padding: 10px 5px;
+
+    h3 {
+      margin-bottom: 20px;
+    }
+  }
+
+  .modal > .close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: -10px;
+    top: -10px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+  }
 `;
 
 export const Badge = styled.button`

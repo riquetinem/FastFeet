@@ -36,7 +36,7 @@ export default function ActionsDeliveries({ delivery }) {
     dispatch(DeliveryActions.deleteRequest(idSelected));
   }
 
-  const PopupExample = () => (
+  const ModalDelivery = () => (
     <Popup
       trigger={
         <Action>
@@ -93,7 +93,7 @@ export default function ActionsDeliveries({ delivery }) {
       )}
     </Popup>
   );
-  console.tron.log(delivery);
+
   return (
     <Container>
       <Badge onClick={handleToggleVisible}>
@@ -101,7 +101,7 @@ export default function ActionsDeliveries({ delivery }) {
       </Badge>
 
       <ActionList visible={visible}>
-        <PopupExample />
+        <ModalDelivery />
 
         <Action onClick={() => history.push(`/edit/delivery/${delivery.id}`)}>
           <p>

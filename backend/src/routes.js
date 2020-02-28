@@ -76,13 +76,6 @@ routes.post('/deliveryman', DeliverymanController.store);
 routes.put('/deliveryman/:deliverymanId', DeliverymanController.update);
 routes.delete('/deliveryman/:deliverymanId', DeliverymanController.delete);
 
-// rotas de entregas
-routes.get('/delivery', DeliveryController.index);
-routes.get('/delivery/:deliveryId', DeliveryController.index);
-routes.post('/delivery', DeliveryController.store);
-routes.put('/delivery/:deliveryId', DeliveryController.update);
-routes.delete('/delivery/:deliveryId', DeliveryController.delete);
-
 // rotas de problemas da entrega
 // listagem de todos as entregas com problemas *
 routes.get('/delivery/problems', ProblemsController.index);
@@ -91,6 +84,13 @@ routes.delete(
   '/problem/:problemId/cancel-delivery',
   ChangeDeliveryController.delete
 );
+
+// rotas de entregas
+routes.get('/delivery', DeliveryController.index);
+routes.get('/delivery/:deliveryId', DeliveryController.index);
+routes.post('/delivery', DeliveryController.store);
+routes.put('/delivery/:deliveryId', DeliveryController.update);
+routes.delete('/delivery/:deliveryId', DeliveryController.delete);
 
 // rota de envio de arquivo
 routes.post('/files', upload.single('file'), FileController.store);

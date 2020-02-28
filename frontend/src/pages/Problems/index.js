@@ -44,7 +44,7 @@ export default function Problems() {
 
   return (
     <Container>
-      <h2>Gerenciando destinatários</h2>
+      <h2>Problemas na entrega</h2>
 
       <Content>
         <thead>
@@ -61,7 +61,7 @@ export default function Problems() {
                 <td>#{problem.idFormated}</td>
                 <td>{problem.description}</td>
                 <td>
-                  <ActionsProblems id={problem.id} />
+                  <ActionsProblems problem={problem} />
                 </td>
               </tr>
             ))}
