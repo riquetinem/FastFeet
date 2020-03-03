@@ -3,6 +3,12 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+
+  h2 {
+    margin-bottom: 42px;
+    margin-left: 10%;
+    font-size: 24px;
+  }
 `;
 
 export const Content = styled.table`

@@ -7,12 +7,13 @@ import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
 import * as Yup from 'yup';
 
 import viaCep from '~/services/viaCep';
+import { cepMask } from '~/utils/cep-mask';
 
 import * as RecipientsActions from '~/store/modules/recipients/actions';
 
 import api from '~/services/api';
 
-import { Container, Content } from './styles';
+import { Content } from './styles';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório!'),
@@ -30,7 +31,7 @@ const schema = Yup.object().shape({
   cidade: Yup.string().required('A cidade é obrigatório!'),
 });
 
-export default function Recipient({ match }) {
+export default function RecipientForm({ match }) {
   const { id } = match.params;
 
   const [recipient, setRecipient] = useState('');
@@ -96,64 +97,57 @@ export default function Recipient({ match }) {
   }
 
   return (
-    <Container>
-      <Content>
-        <Form initialData={endereco} onSubmit={handleSubmit} schema={schema}>
-          <div id="first-row">
-            <h2>{recipient ? 'Edição ' : 'Cadastro '} de destinatário</h2>
+    <Content>
+      <Form initialData={endereco} onSubmit={handleSubmit} schema={schema}>
+        <div id="first-row">
+          <h2>{recipient ? 'Edição ' : 'Cadastro '} de destinatário</h2>
 
-            <ul id="nav-buttons">
-              <li>
-                <Link to="/recipients">
-                  <button type="button" id="back">
-                    <MdKeyboardArrowLeft size={30} color="#000" /> Voltar
-                  </button>
-                </Link>
-              </li>
-
-              <li>
-                <button type="submit">
-                  <MdDone size={30} color="#fff" />
-                  {recipient ? 'Salvar ' : 'Cadastrar '}
+          <ul id="nav-buttons">
+            <li>
+              <Link to="/recipients">
+                <button type="button" id="back">
+                  <MdKeyboardArrowLeft size={30} color="#000" /> Voltar
                 </button>
-              </li>
-            </ul>
-          </div>
+              </Link>
+            </li>
 
-          <strong>Nome</strong>
-          <Input name="name" placeholder="Nelson Jacomé" />
+            <li>
+              <button type="submit">
+                <MdDone size={30} color="#fff" />
+                {recipient ? 'Salvar ' : 'Cadastrar '}
+              </button>
+            </li>
+          </ul>
+        </div>
 
-          <strong id="cep">Cep</strong>
-          <Input
-            name="cep"
-            placeholder="00000-000"
-            onChange={e => setCep(e.target.value)}
-          />
+        <Input name="name" label="Nome" placeholder="Nelson Jacomé" />
 
-          <strong id="rua">Rua</strong>
-          <Input name="rua" placeholder="Rua Astrolopiteco" />
+        <Input
+          name="cep"
+          label="Cep"
+          placeholder="05729-120"
+          id="cep"
+          onChange={e => setCep(e.target.value)}
+          value={cepMask(cep)}
+        />
 
-          <strong id="numero">Número</strong>
-          <Input name="numero" placeholder="9999" type="number" />
+        <Input name="rua" label="Rua" id="rua" placeholder="Rua Catuti" />
 
-          <strong id="complemento">Complemento</strong>
-          <Input name="complemento" />
+        <Input name="numero" label="Número" placeholder="9999" type="number" />
 
-          <strong>Cidade</strong>
-          <Input name="cidade" placeholder="São Paulo" />
+        <Input name="complemento" label="Complemento" />
 
-          <strong>Estado</strong>
-          <Input name="estado" placeholder="SP" />
+        <Input name="cidade" label="Cidade" placeholder="São Paulo" />
 
-          <strong>Bairro</strong>
-          <Input name="bairro" placeholder="Crécil" />
-        </Form>
-      </Content>
-    </Container>
+        <Input name="estado" label="Estado" placeholder="SP" />
+
+        <Input name="bairro" label="Bairro" placeholder="Vila Andrade" />
+      </Form>
+    </Content>
   );
 }
 
-Recipient.propTypes = {
+RecipientForm.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,

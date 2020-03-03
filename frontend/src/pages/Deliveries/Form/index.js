@@ -10,7 +10,7 @@ import * as DeliveriesActions from '~/store/modules/deliveries/actions';
 
 import api from '~/services/api';
 
-import { Container, Content } from './styles';
+import { Content } from './styles';
 
 const schema = Yup.object().shape({
   product: Yup.string().required('O nome do produto é obrigatório'),
@@ -18,7 +18,7 @@ const schema = Yup.object().shape({
   deliveryman_id: Yup.string().required('O entregador é obrigatório'),
 });
 
-export default function Delivery({ match }) {
+export default function DeliveryForm({ match }) {
   const { id } = match.params;
 
   const [delivery, setDelivery] = useState('');
@@ -89,59 +89,60 @@ export default function Delivery({ match }) {
   }
 
   return (
-    <Container>
-      <Content>
-        <Form initialData={delivery} onSubmit={handleSubmit} schema={schema}>
-          <div id="first-row">
-            <h2>{delivery ? 'Edição ' : 'Cadastro '} de encomendas</h2>
+    <Content>
+      <Form initialData={delivery} onSubmit={handleSubmit} schema={schema}>
+        <div id="first-row">
+          <h2>{delivery ? 'Edição ' : 'Cadastro '} de encomendas</h2>
 
-            <ul id="nav-buttons">
-              <li>
-                <Link to="/recipients">
-                  <button type="button" id="back">
-                    <MdKeyboardArrowLeft size={30} color="#000" /> Voltar
-                  </button>
-                </Link>
-              </li>
-
-              <li>
-                <button type="submit">
-                  <MdDone size={30} color="#fff" />
-                  {delivery ? 'Salvar ' : 'Cadastrar '}
+          <ul id="nav-buttons">
+            <li>
+              <Link to="/deliveries">
+                <button type="button" id="back">
+                  <MdKeyboardArrowLeft size={30} color="#000" /> Voltar
                 </button>
-              </li>
-            </ul>
-          </div>
+              </Link>
+            </li>
 
-          <strong>Entregadores</strong>
-          <Select
-            name="deliveryman_id"
-            placeholder={
-              delivery ? delivery.deliveryman.name : 'Selecione uma opção... '
-            }
-            defaultValue={delivery.deliveryman_id}
-            options={deliverymen}
-          />
+            <li>
+              <button type="submit">
+                <MdDone size={30} color="#fff" />
+                {delivery ? 'Salvar ' : 'Cadastrar '}
+              </button>
+            </li>
+          </ul>
+        </div>
 
-          <strong>Destinatários</strong>
-          <Select
-            name="recipient_id"
-            placeholder={
-              delivery ? delivery.recipient.name : 'Selecione uma opção... '
-            }
-            defaultValue={delivery.recipient_id}
-            options={recipients}
-          />
+        <Select
+          name="deliveryman_id"
+          label="Entregadores"
+          placeholder={
+            delivery ? delivery.deliveryman.name : 'Selecione uma opção... '
+          }
+          defaultValue={delivery.deliveryman_id}
+          options={deliverymen}
+        />
 
-          <strong>Nome do produto</strong>
-          <Input name="product" placeholder="Xiaomi redmi note 8 pro" />
-        </Form>
-      </Content>
-    </Container>
+        <Select
+          name="recipient_id"
+          label="Destinatários"
+          placeholder={
+            delivery ? delivery.recipient.name : 'Selecione uma opção... '
+          }
+          defaultValue={delivery.recipient_id}
+          options={recipients}
+        />
+
+        <Input
+          name="product"
+          label="Nome do produto"
+          placeholder="Xiaomi redmi note 8 pro"
+        />
+      </Form>
+    </Content>
   );
 }
 
-Delivery.propTypes = {
+DeliveryForm.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
