@@ -1,8 +1,18 @@
 import React from 'react';
-import { View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
+import 'react-native-gesture-handler';
 
-// import { Container } from './styles';
+// import { store, persistor } from './store';
+import './config/ReactotronConfig';
 
-export default function src() {
-  return <View />;
+import Routes from './routes';
+
+export default function Index() {
+  return (
+    <NavigationContainer>
+      <StatusBar barStyle="light-content" backgroundColor="#7d40e7" />
+      <Routes />
+    </NavigationContainer>
+  );
 }
