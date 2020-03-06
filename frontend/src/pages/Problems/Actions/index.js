@@ -1,31 +1,15 @@
 import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { MdMoreHoriz, MdRemoveRedEye, MdDeleteForever } from 'react-icons/md';
-
-import * as DeliveryActions from '~/store/modules/deliveries/actions';
 
 import { Container, Badge, ActionList, Action } from './styles';
 
-export default function ActionsProblems({ problem }) {
+export default function ActionsProblems({ problem, onCancel }) {
   const [visible, setVisible] = useState(false);
-
-  const dispatch = useDispatch();
 
   function handleToggleVisible() {
     setVisible(!visible);
-  }
-
-  async function deleteAction(idSelected) {
-    // eslint-disable-next-line no-alert
-    const confirm = window.confirm(
-      'Tem certeza que deseja cancelar está encomenda?'
-    );
-
-    if (!confirm) return;
-
-    dispatch(DeliveryActions.cancelRequest(idSelected));
   }
 
   const ModalProblem = () => (
@@ -63,7 +47,7 @@ export default function ActionsProblems({ problem }) {
       <ActionList visible={visible}>
         <ModalProblem />
 
-        <Action onClick={() => deleteAction(problem.id)}>
+        <Action onClick={onCancel}>
           <p>
             <MdDeleteForever color="#DE3B3B" size={15} /> Cancelar Encomenda
           </p>
@@ -75,4 +59,5 @@ export default function ActionsProblems({ problem }) {
 
 ActionsProblems.propTypes = {
   problem: PropTypes.element.isRequired,
+  onCancel: PropTypes.element.isRequired,
 };

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
-import ActionsProblems from '~/components/ActionsProblems';
+import Actions from './Actions';
 
 import api from '~/services/api';
 
@@ -13,26 +13,25 @@ export default function Problems() {
   const [page, setPage] = useState(1);
   const [next, setNext] = useState(false);
 
-  const canceled = useSelector(state => state.deliveries.canceled);
+  async function loadProblems() {
+    const res = await api.get('/delivery/problems', {
+      params: { page },
+    });
+    const data = res.data.problems.rows.map(response => ({
+      ...response,
+      idFormated: `${`00${response.delivery.id}`.slice(-2)} - ${
+        response.delivery.product
+      }`,
+    }));
+
+    setNext(res.data.problems.next);
+    setProblems(data);
+  }
 
   useEffect(() => {
-    async function loadRecipients() {
-      const res = await api.get('/delivery/problems', {
-        params: { page },
-      });
-      const data = res.data.problems.rows.map(response => ({
-        ...response,
-        idFormated: `${`00${response.delivery.id}`.slice(-2)} - ${
-          response.delivery.product
-        }`,
-      }));
-
-      setNext(res.data.problems.next);
-      setProblems(data);
-    }
-
-    loadRecipients();
-  }, [page, next, canceled]);
+    loadProblems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, next]);
 
   function handlePrev() {
     setPage(page - 1);
@@ -40,6 +39,16 @@ export default function Problems() {
 
   function handleNext() {
     setPage(page + 1);
+  }
+
+  async function handleCancel(id) {
+    try {
+      await api.delete(`/problem/${id}/cancel-delivery`);
+      toast.success('Encomenda cancelada com sucesso!');
+      loadProblems();
+    } catch (error) {
+      toast.error('Erro ao cancelar a encomenda!');
+    }
   }
 
   return (
@@ -61,7 +70,10 @@ export default function Problems() {
                 <td>#{problem.idFormated}</td>
                 <td>{problem.description}</td>
                 <td>
-                  <ActionsProblems problem={problem} />
+                  <Actions
+                    problem={problem}
+                    onCancel={() => handleCancel(problem.id)}
+                  />
                 </td>
               </tr>
             ))}

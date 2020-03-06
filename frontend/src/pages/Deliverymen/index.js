@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MdSearch, MdAdd, MdChevronRight, MdChevronLeft } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import { Form, Input } from '@rocketseat/unform';
 import { Link } from 'react-router-dom';
 
@@ -44,8 +45,13 @@ export default function Deliverymens() {
   }
 
   async function handleDelete(id) {
-    console.tron.log(id);
-    loadDeliverymen();
+    try {
+      await api.delete(`/deliveryman/${id}`);
+      toast.success('Entregador deletado com sucesso!');
+      loadDeliverymen();
+    } catch (error) {
+      toast.error('Erro ao deletar o entregador!');
+    }
   }
 
   return (
