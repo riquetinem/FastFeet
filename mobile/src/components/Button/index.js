@@ -23,7 +23,8 @@ export default function Button({
 }
 
 Button.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    .isRequired,
   color: PropTypes.string.isRequired,
   background: PropTypes.string.isRequired,
   loading: PropTypes.bool,

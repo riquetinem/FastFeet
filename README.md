@@ -56,6 +56,12 @@ $ cd backend
 # Install dependencies
 $ yarn
 
+# Execute migrations
+$ yarn sequelize db:migrate
+
+# And execute seeds
+$ yarn sequelize db:seed:all
+
 # Run the backend
 $ yarn dev
 ```

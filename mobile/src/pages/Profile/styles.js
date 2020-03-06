@@ -36,9 +36,3 @@ export const LogoutButton = styled(Button).attrs({
   color: '#fff',
   background: '#E74040',
 })``;
-
-//   Avatar,
-//   Info,
-//   Title,
-//   ContentInfo,
-//   LogoutButton,

@@ -13,6 +13,7 @@ import {
 import { signOut } from '~/store/modules/auth/actions';
 
 export default function Profile() {
+  // TODO: Verificar o pq quando dar logout ele "redireciona" para a mesma pagina e fala que o "user.blabla is null"
   const user = useSelector(state => state.user.profile);
 
   const dispatch = useDispatch();
