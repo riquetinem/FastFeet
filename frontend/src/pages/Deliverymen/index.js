@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { MdSearch, MdAdd, MdChevronRight, MdChevronLeft } from 'react-icons/md';
 import { Form, Input } from '@rocketseat/unform';
 import { Link } from 'react-router-dom';
 
 import { Container, Content, PageButtons } from './styles';
-import ActionsDeliverymen from '~/components/ActionsDeliverymen';
+import Actions from './Actions';
 
 import icon from '~/assets/icon-default.svg';
 
@@ -17,25 +16,24 @@ export default function Deliverymens() {
   const [page, setPage] = useState(1);
   const [next, setNext] = useState(false);
 
-  const deleted = useSelector(state => state.deliverymen.deleted);
+  async function loadDeliverymen() {
+    const res = await api.get('/deliveryman', {
+      params: { page, q: name },
+    });
+
+    const data = res.data.deliverymans.rows.map(response => ({
+      ...response,
+      idFormated: `00${response.id}`.slice(-2),
+    }));
+
+    setNext(res.data.deliverymans.next);
+    setDeliverymen(data);
+  }
 
   useEffect(() => {
-    async function loadDeliverymen() {
-      const res = await api.get('/deliveryman', {
-        params: { page, q: name },
-      });
-
-      const data = res.data.deliverymans.rows.map(response => ({
-        ...response,
-        idFormated: `00${response.id}`.slice(-2),
-      }));
-
-      setNext(res.data.deliverymans.next);
-      setDeliverymen(data);
-    }
-
     loadDeliverymen();
-  }, [name, page, next, deleted]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, page, next]);
 
   function handlePrev() {
     setPage(page - 1);
@@ -43,6 +41,11 @@ export default function Deliverymens() {
 
   function handleNext() {
     setPage(page + 1);
+  }
+
+  async function handleDelete(id) {
+    console.tron.log(id);
+    loadDeliverymen();
   }
 
   return (
@@ -89,7 +92,10 @@ export default function Deliverymens() {
                 <td>{deliveryman.name}</td>
                 <td>{deliveryman.email}</td>
                 <td>
-                  <ActionsDeliverymen id={deliveryman.id} />
+                  <Actions
+                    id={deliveryman.id}
+                    onDelete={() => handleDelete(deliveryman.id)}
+                  />
                 </td>
               </tr>
             ))}

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
 import * as Yup from 'yup';
 
-import * as DeliverymanActions from '~/store/modules/deliverymen/actions';
-
 import api from '~/services/api';
+import history from '~/services/history';
 
 import AvatarInput from './AvatarInput';
 
@@ -26,15 +25,11 @@ export default function DeliverymanForm({ match }) {
   const { id } = match.params;
   const [deliveryman, setDeliveryman] = useState('');
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     async function loadDeliveryman() {
       if (id) {
         const res = await api.get(`/deliveryman/${id}`);
-
         const { data } = res;
-
         setDeliveryman(data);
       }
     }
@@ -44,10 +39,20 @@ export default function DeliverymanForm({ match }) {
 
   async function handleSubmit(data) {
     if (!id) {
-      dispatch(DeliverymanActions.addRequest(data));
+      try {
+        const res = await api.post('/deliveryman', data);
+        toast.success('Entregador cadastrado com sucesso');
+        history.push(`/edit/deliveryman/${res.data.id}`);
+      } catch (error) {
+        toast.success('Erro ao cadastrar o entregador');
+      }
     } else {
-      data.id = id;
-      dispatch(DeliverymanActions.updateRequest(data));
+      try {
+        await api.put(`/deliveryman/${id}`, data);
+        toast.success('Entregador atualizado com sucesso');
+      } catch (error) {
+        toast.error('Erro ao atualizar o entregador');
+      }
     }
   }
 
