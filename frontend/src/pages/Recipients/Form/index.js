@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
@@ -9,9 +9,8 @@ import * as Yup from 'yup';
 import viaCep from '~/services/viaCep';
 import { cepMask } from '~/utils/cep-mask';
 
-import * as RecipientsActions from '~/store/modules/recipients/actions';
-
 import api from '~/services/api';
+import history from '~/services/history';
 
 import { Content } from './styles';
 
@@ -37,8 +36,6 @@ export default function RecipientForm({ match }) {
   const [recipient, setRecipient] = useState('');
   const [cep, setCep] = useState('');
   const [endereco, setEndereco] = useState([]);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadCep() {
@@ -89,10 +86,20 @@ export default function RecipientForm({ match }) {
 
   async function handleSubmit(data) {
     if (!id) {
-      dispatch(RecipientsActions.addRequest(data));
+      try {
+        const res = await api.post('/recipient', data);
+        toast.success('Destinatário cadastrado com sucesso!');
+        history.push(`/edit/recipient/${res.data.id}`);
+      } catch (error) {
+        toast.error('Erro ao cadastrar o destinatário!');
+      }
     } else {
-      data.id = id;
-      dispatch(RecipientsActions.updateRequest(data));
+      try {
+        await api.put(`/recipient/${id}`, data);
+        toast.success('Destinatário atualizado com sucesso!');
+      } catch (error) {
+        toast.error('Erro ao atualizar o destinatário!');
+      }
     }
   }
 
