@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { Form, Input, Select } from '@rocketseat/unform';
 import { MdDone, MdKeyboardArrowLeft } from 'react-icons/md';
 import * as Yup from 'yup';
 
-import * as DeliveriesActions from '~/store/modules/deliveries/actions';
-
 import api from '~/services/api';
+import history from '~/services/history';
 
 import { Content } from './styles';
 
@@ -24,8 +23,6 @@ export default function DeliveryForm({ match }) {
   const [delivery, setDelivery] = useState('');
   const [deliverymen, setDeliverymen] = useState([]);
   const [recipients, setRecipients] = useState([]);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadDeliveryman() {
@@ -76,15 +73,22 @@ export default function DeliveryForm({ match }) {
     loadDelivery();
   }, [id]);
 
-  console.tron.log(delivery.recipientDefault);
-  console.tron.log(delivery.deliverymanDefault);
-
   async function handleSubmit(data) {
     if (!id) {
-      dispatch(DeliveriesActions.addRequest(data));
+      try {
+        const res = await api.post('/delivery', data);
+        toast.success('Encomenda cadastrada com sucesso');
+        history.push(`/edit/delivery/${res.data.id}`);
+      } catch (error) {
+        toast.error('Erro ao criar uma encomenda');
+      }
     } else {
-      data.id = id;
-      dispatch(DeliveriesActions.updateRequest(data));
+      try {
+        await api.put(`/delivery/${id}`, data);
+        toast.success('Encomenda atualizada com sucesso');
+      } catch (error) {
+        toast.error('Erro ao atualizar uma encomenda');
+      }
     }
   }
 

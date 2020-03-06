@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import {
   MdMoreHoriz,
   MdRemoveRedEye,
@@ -12,28 +11,13 @@ import {
 
 import history from '~/services/history';
 
-import * as DeliveryActions from '~/store/modules/deliveries/actions';
-
 import { Container, Badge, ActionList, Action } from './styles';
 
-export default function ActionsDeliveries({ delivery }) {
+export default function ActionsDeliveries({ delivery, onDelete }) {
   const [visible, setVisible] = useState(false);
-
-  const dispatch = useDispatch();
 
   function handleToggleVisible() {
     setVisible(!visible);
-  }
-
-  async function deleteAction(idSelected) {
-    // eslint-disable-next-line no-alert
-    const confirm = window.confirm(
-      'Tem certeza que deseja deletar está encomenda?'
-    );
-
-    if (!confirm) return;
-
-    dispatch(DeliveryActions.deleteRequest(idSelected));
   }
 
   const ModalDelivery = () => (
@@ -108,7 +92,7 @@ export default function ActionsDeliveries({ delivery }) {
             <MdCreate color="#4D85EE" size={15} /> Editar
           </p>
         </Action>
-        <Action onClick={() => deleteAction(delivery.id)}>
+        <Action onClick={onDelete}>
           <p>
             <MdDeleteForever color="#DE3B3B" size={15} /> Excluir
           </p>
@@ -120,4 +104,5 @@ export default function ActionsDeliveries({ delivery }) {
 
 ActionsDeliveries.propTypes = {
   delivery: PropTypes.element.isRequired,
+  onDelete: PropTypes.element.isRequired,
 };

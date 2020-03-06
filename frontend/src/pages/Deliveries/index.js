@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Form, Input } from '@rocketseat/unform';
 import { MdAdd, MdSearch, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 import { Container, Content, PageButtons } from './styles';
 
-import ActionsDeliveries from '~/components/ActionsDeliveries';
+import Actions from './Actions';
 import Status from './Status';
 
 import icon from '~/assets/icon-default.svg';
@@ -22,47 +22,46 @@ export default function Deliveries() {
   const [page, setPage] = useState(1);
   const [product, setProduct] = useState('');
 
-  const deleted = useSelector(state => state.deliveries.deleted);
+  async function loadDeliveries() {
+    const res = await api.get('/delivery', {
+      params: { page, q: product },
+    });
+
+    const data = res.data.deliveries.rows.map(response => ({
+      ...response,
+      idFormated: `00${response.id}`.slice(-2),
+      initialDate:
+        response.start_date &&
+        format(parseISO(response.start_date), 'dd/MM/yyyy', {
+          locale: pt,
+        }),
+      canceledDate:
+        response.canceled_at &&
+        format(parseISO(response.canceled_at), 'dd/MM/yyyy', {
+          locale: pt,
+        }),
+      finalDate:
+        response.end_date &&
+        format(parseISO(response.end_date), 'dd/MM/yyyy', {
+          locale: pt,
+        }),
+      status: response.canceled_at
+        ? 'Cancelado'
+        : response.end_date
+        ? 'Entregue'
+        : response.start_date
+        ? 'Retirada'
+        : 'Pendente',
+    }));
+
+    setNext(res.data.deliveries.next);
+    setDeliveries(data);
+  }
 
   useEffect(() => {
-    async function loadDeliveries() {
-      const res = await api.get('/delivery', {
-        params: { page, q: product },
-      });
-
-      const data = res.data.deliveries.rows.map(response => ({
-        ...response,
-        idFormated: `00${response.id}`.slice(-2),
-        initialDate:
-          response.start_date &&
-          format(parseISO(response.start_date), 'dd/MM/yyyy', {
-            locale: pt,
-          }),
-        canceledDate:
-          response.canceled_at &&
-          format(parseISO(response.canceled_at), 'dd/MM/yyyy', {
-            locale: pt,
-          }),
-        finalDate:
-          response.end_date &&
-          format(parseISO(response.end_date), 'dd/MM/yyyy', {
-            locale: pt,
-          }),
-        status: response.canceled_at
-          ? 'Cancelado'
-          : response.end_date
-          ? 'Entregue'
-          : response.start_date
-          ? 'Retirada'
-          : 'Pendente',
-      }));
-
-      setNext(res.data.deliveries.next);
-      setDeliveries(data);
-    }
-
     loadDeliveries();
-  }, [next, page, product, deleted]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [next, page, product]);
 
   function handlePrev() {
     setPage(page - 1);
@@ -70,6 +69,16 @@ export default function Deliveries() {
 
   function handleNext() {
     setPage(page + 1);
+  }
+
+  async function handleDelete(id) {
+    try {
+      await api.delete(`/delivery/${id}`);
+      toast.success('Encomenda deleta com sucesso');
+      loadDeliveries();
+    } catch (error) {
+      toast.error('Erro ao deletar a encomenda');
+    }
   }
 
   return (
@@ -134,7 +143,10 @@ export default function Deliveries() {
                   </p>
                 </td>
                 <td>
-                  <ActionsDeliveries delivery={delivery} />
+                  <Actions
+                    delivery={delivery}
+                    onDelete={() => handleDelete(delivery.id)}
+                  />
                 </td>
               </tr>
             ))}
