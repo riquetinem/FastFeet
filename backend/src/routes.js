@@ -31,6 +31,7 @@ routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
 // rotas das funcionalidades do entregador
+routes.get('/deliveryman/:deliverymanId', DeliverymanController.index);
 // listar todas as encomendas do entregador
 routes.get(
   '/deliveryman/:deliverymanId/deliveries',
@@ -71,7 +72,6 @@ routes.delete('/recipient/:recipientId', RecipientController.delete);
 
 // rotas de entregador
 routes.get('/deliveryman', DeliverymanController.index);
-routes.get('/deliveryman/:deliverymanId', DeliverymanController.index);
 routes.post('/deliveryman', DeliverymanController.store);
 routes.put('/deliveryman/:deliverymanId', DeliverymanController.update);
 routes.delete('/deliveryman/:deliverymanId', DeliverymanController.delete);

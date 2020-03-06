@@ -7,6 +7,12 @@ class ViewDeliveriesController {
   async index(req, res) {
     const { deliverymanId } = req.params;
 
+    // Verifica se existe um entregador com o id informado
+    const deliveryman = await Deliveryman.findByPk(deliverymanId);
+
+    if (!deliveryman)
+      return res.status(404).json({ error: 'Deliveryman not found' });
+
     // mostra apenas as que nao foram entregues, retiradas e que sao apenas do entregador
     const deliveries = await Delivery.findAll({
       where: {
