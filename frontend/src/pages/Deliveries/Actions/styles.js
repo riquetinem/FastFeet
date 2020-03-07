@@ -6,6 +6,7 @@ export const Container = styled.div`
   .modal {
     font-size: 20px;
   }
+
   .modal > .header {
     width: 100%;
     border-bottom: 1px solid #000;
@@ -13,6 +14,7 @@ export const Container = styled.div`
     text-align: center;
     padding: 5px;
   }
+
   .modal > .content {
     width: 100%;
     padding: 10px 5px;
