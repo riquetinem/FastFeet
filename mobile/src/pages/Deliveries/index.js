@@ -39,12 +39,23 @@ export default function Deliveries() {
       if (menuSelected) {
         const res = await api.get(`/deliveryman/${user.id}/deliveries/pending`);
 
-        setDeliveries(res.data);
+        const data = res.data.map(response => ({
+          ...response,
+          idFormated: `00${response.id}`.slice(-2),
+        }));
+
+        setDeliveries(data);
       } else {
         const res = await api.get(
           `/deliveryman/${user.id}/deliveries/delivered`
         );
-        setDeliveries(res.data);
+
+        const data = res.data.map(response => ({
+          ...response,
+          idFormated: `00${response.id}`.slice(-2),
+        }));
+
+        setDeliveries(data);
       }
     }
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import PropTypes from 'prop-types';
 
-import Deliveries from '~/pages/Deliveries';
+import DeliveryRoutes from './delivery.routes';
+
 import Profile from '~/pages/Profile';
 
 const Tab = createBottomTabNavigator();
@@ -15,18 +15,18 @@ export default function Dashboard() {
     <>
       <Tab.Navigator
         tabBarOptions={{
-          activeTintColor: '#7159c1',
+          activeTintColor: '#7D40E7',
           inactiveTintColor: '#999999',
         }}>
         <Tab.Screen
           name="Entregas"
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Entregas',
             tabBarIcon: ({ color, size }) => (
               <Icon name="reorder" color={color} size={size} />
             ),
           }}
-          component={Deliveries}
+          component={DeliveryRoutes}
         />
         <Tab.Screen
           name="Profile"

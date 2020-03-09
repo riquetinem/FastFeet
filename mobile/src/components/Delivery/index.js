@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   Delivery,
@@ -26,11 +27,14 @@ export default function Deliveries({ delivery, ...rest }) {
       locale: pt,
     });
   }, [delivery.createdAt]);
+
+  const navigation = useNavigation();
+
   return (
     <Delivery>
       <HeaderDelivery>
         <Icon name="local-shipping" color="#7D40E7" size={20} />
-        <DeliveryTitle>Encomenda {delivery.id}</DeliveryTitle>
+        <DeliveryTitle>Encomenda {delivery.idFormated}</DeliveryTitle>
       </HeaderDelivery>
 
       <BodyDelivery>
@@ -58,7 +62,10 @@ export default function Deliveries({ delivery, ...rest }) {
           <TextContent>{delivery.recipient.cidade}</TextContent>
         </ContentFooter>
         <ContentFooter>
-          <OptionNavigation>Ver detalhes</OptionNavigation>
+          <OptionNavigation
+            onPress={() => navigation.navigate('Details', { delivery })}>
+            Ver detalhes
+          </OptionNavigation>
         </ContentFooter>
       </FooterDelivery>
     </Delivery>
