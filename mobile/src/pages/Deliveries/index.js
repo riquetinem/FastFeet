@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -14,27 +14,42 @@ import {
   NavigationOptions,
   Options,
   OptionNavigation,
+  TextNavigation,
   TitleNavigation,
-  Delivery,
-  DeliveryTitle,
-  HeaderDelivery,
-  FooterDelivery,
-  ContentFooter,
-  TitleContent,
-  TextContent,
   BodyDelivery,
-  Line,
-  Ball,
-  Progress,
-  Legend,
+  NotFoundDeliveries,
 } from './styles';
 
+import Delivery from '~/components/Delivery';
+
+import api from '~/services/api';
+
 import { signOut } from '~/store/modules/auth/actions';
-// TODO: SEPARAR EM COMPONENTS PARA A PAGINA NAO FICAR TAO GRANDE
+
 export default function Deliveries() {
+  const [deliveries, setDeliveries] = useState([]);
+  const [menuSelected, setMenuSelected] = useState(true);
+
   const user = useSelector(state => state.user.profile);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function loadDeliveries() {
+      if (menuSelected) {
+        const res = await api.get(`/deliveryman/${user.id}/deliveries/pending`);
+
+        setDeliveries(res.data);
+      } else {
+        const res = await api.get(
+          `/deliveryman/${user.id}/deliveries/delivered`
+        );
+        setDeliveries(res.data);
+      }
+    }
+
+    loadDeliveries();
+  }, [menuSelected, user.id]);
 
   function handleLogout() {
     dispatch(signOut());
@@ -66,47 +81,31 @@ export default function Deliveries() {
         <TitleNavigation>Entregas</TitleNavigation>
 
         <Options>
-          <OptionNavigation>Pendentes</OptionNavigation>
+          <OptionNavigation onPress={() => setMenuSelected(true)}>
+            <TextNavigation thisSelected={menuSelected ? '#7159c1' : '#999999'}>
+              Pendentes
+            </TextNavigation>
+          </OptionNavigation>
 
-          <OptionNavigation>Entregues</OptionNavigation>
+          <OptionNavigation onPress={() => setMenuSelected(false)}>
+            <TextNavigation thisSelected={menuSelected ? '#999999' : '#7159c1'}>
+              Entregues
+            </TextNavigation>
+          </OptionNavigation>
         </Options>
       </NavigationOptions>
 
-      <Delivery>
-        <HeaderDelivery>
-          <Icon name="local-shipping" color="#7D40E7" size={20} />
-          <DeliveryTitle>Encomenda 01</DeliveryTitle>
-        </HeaderDelivery>
-
-        <BodyDelivery>
-          <Progress>
-            <Ball status />
-            <Line />
-            <Ball status />
-            <Line />
-            <Ball />
-          </Progress>
-          <Legend>
-            <TitleContent>Aguardando Retirada</TitleContent>
-            <TitleContent>Retirada</TitleContent>
-            <TitleContent>Entregue</TitleContent>
-          </Legend>
-        </BodyDelivery>
-
-        <FooterDelivery>
-          <ContentFooter>
-            <TitleContent>Data</TitleContent>
-            <TextContent>14/01/2020</TextContent>
-          </ContentFooter>
-          <ContentFooter>
-            <TitleContent>Cidade</TitleContent>
-            <TextContent>Diadema</TextContent>
-          </ContentFooter>
-          <ContentFooter>
-            <OptionNavigation>Ver detalhes</OptionNavigation>
-          </ContentFooter>
-        </FooterDelivery>
-      </Delivery>
+      {deliveries.length > 0 ? (
+        <BodyDelivery
+          data={deliveries}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => <Delivery delivery={item} />}
+        />
+      ) : (
+        <NotFoundDeliveries>
+          Nenhuma encomenda foi encontrada
+        </NotFoundDeliveries>
+      )}
     </Container>
   );
 }

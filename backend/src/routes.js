@@ -34,7 +34,7 @@ routes.post('/sessions', SessionController.store);
 routes.get('/deliveryman/:deliverymanId', DeliverymanController.index);
 // listar todas as encomendas do entregador
 routes.get(
-  '/deliveryman/:deliverymanId/deliveries',
+  '/deliveryman/:deliverymanId/deliveries/:menuContext',
   ViewDeliveriesController.index
 );
 

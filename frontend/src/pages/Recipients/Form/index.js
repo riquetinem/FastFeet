@@ -40,7 +40,6 @@ export default function RecipientForm({ match }) {
   useEffect(() => {
     async function loadCep() {
       const buscar = await viaCep.get(`${cep}/json/`);
-      console.tron.log(buscar.data);
 
       buscar.data.rua = buscar.data.logradouro;
       buscar.data.cidade = buscar.data.localidade;
