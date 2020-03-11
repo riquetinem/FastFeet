@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { format, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -42,6 +44,12 @@ export default function Deliveries() {
         const data = res.data.map(response => ({
           ...response,
           idFormated: `00${response.id}`.slice(-2),
+          endereco: `${response.recipient.rua}, ${response.recipient.numero}, ${response.recipient.cidade} - ${response.recipient.estado}, ${response.recipient.cep}`,
+          retirada:
+            response.start_date &&
+            format(parseISO(response.start_date), 'dd/MM/yyyy', {
+              locale: pt,
+            }),
         }));
 
         setDeliveries(data);

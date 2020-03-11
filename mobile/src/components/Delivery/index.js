@@ -46,7 +46,7 @@ export default function Deliveries({ delivery, ...rest }) {
           <Ball />
         </Progress>
         <Legend>
-          <TitleContent>Aguardando Retirada</TitleContent>
+          <TitleContent>Em espera</TitleContent>
           <TitleContent>Retirada</TitleContent>
           <TitleContent>Entregue</TitleContent>
         </Legend>

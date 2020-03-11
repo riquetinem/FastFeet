@@ -22,6 +22,7 @@ export default function DeliveryRoutes() {
           headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: '#7D40E7',
+            elevation: 0,
           },
         }}
         name="Details"
