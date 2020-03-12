@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
-
-import Button from '~/components/Button';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const LilBackground = styled.SafeAreaView`
   background: #7d40e7;
@@ -48,18 +47,19 @@ export const Separator = styled.View``;
 
 export const ListButtons = styled.View`
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
 `;
 
-export const OptionButton = styled(Button).attrs({
-  color: '#999999',
-  background: '#ffffff',
-})`
+export const TitleButton = styled.Text`
+  color: #999999;
+  font-size: 18px;
+  margin-left: 25px;
+`;
+
+export const OptionButton = styled(RectButton)`
+  background: #ffffff;
+
   display: flex;
-  flex-direction: column;
+  width: 120px;
   align-items: center;
-  width: 90px;
-  height: 100px;
-  box-shadow: 0 1px 1px #000;
 `;

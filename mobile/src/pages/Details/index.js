@@ -14,6 +14,7 @@ import {
   DataSession,
   Separator,
   ListButtons,
+  TitleButton,
 } from './styles';
 
 export default function Details() {
@@ -64,17 +65,17 @@ export default function Details() {
         </Session>
 
         <ListButtons>
-          <OptionButton>
-            <Icon name="highlight-off" color="#E74040" size={30} /> Informar
-            Problema
+          <OptionButton onPress={() => {}}>
+            <Icon name="highlight-off" color="#E74040" size={30} />
+            <TitleButton>Informar Problema</TitleButton>
           </OptionButton>
-          <OptionButton>
-            <Icon name="info-outline" color="#E7BA40" size={30} /> Visualizar
-            Problemas
+          <OptionButton onPress={() => {}}>
+            <Icon name="info-outline" color="#E7BA40" size={30} />
+            <TitleButton>Visualizar Problemas</TitleButton>
           </OptionButton>
-          <OptionButton>
-            <Icon name="event-available" color="#7D40E7" size={30} /> Confirmar
-            Entrega
+          <OptionButton onPress={() => {}}>
+            <Icon name="event-available" color="#7D40E7" size={30} />
+            <TitleButton>Confirmar Entrega</TitleButton>
           </OptionButton>
         </ListButtons>
       </Card>
