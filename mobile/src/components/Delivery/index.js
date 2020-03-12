@@ -39,11 +39,21 @@ export default function Deliveries({ delivery, ...rest }) {
 
       <BodyDelivery>
         <Progress>
-          <Ball status />
+          <Ball
+            status={
+              delivery.status === 'Entregue' ||
+              delivery.status === 'Retirada' ||
+              delivery.status === 'Pendente'
+            }
+          />
           <Line />
-          <Ball status />
+          <Ball
+            status={
+              delivery.status === 'Entregue' || delivery.status === 'Retirada'
+            }
+          />
           <Line />
-          <Ball />
+          <Ball status={delivery.status === 'Entregue'} />
         </Progress>
         <Legend>
           <TitleContent>Em espera</TitleContent>

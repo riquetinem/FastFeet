@@ -82,7 +82,7 @@ export const TextNavigation = styled.Text`
 `;
 
 export const BodyDelivery = styled.FlatList.attrs({
-  showsHorizontalScrollIndicator: false,
+  showsVerticalScrollIndicator: false,
 })``;
 
 export const NotFoundDeliveries = styled.Text`

@@ -59,7 +59,7 @@ export default function Details() {
             <Separator>
               <Title>DATA DE ENTREGA</Title>
               <TextContent>
-                {delivery.end_date ? delivery.end_date : '--/--/--'}
+                {delivery.end_date ? delivery.entregue : '--/--/--'}
               </TextContent>
             </Separator>
           </DataSession>

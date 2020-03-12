@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -50,6 +51,16 @@ export default function Deliveries() {
             format(parseISO(response.start_date), 'dd/MM/yyyy', {
               locale: pt,
             }),
+          entregue:
+            response.end_date &&
+            format(parseISO(response.end_date), 'dd/MM/yyyy', {
+              locale: pt,
+            }),
+          status: response.end_date
+            ? 'Entregue'
+            : response.start_date
+            ? 'Retirada'
+            : 'Pendente',
         }));
 
         setDeliveries(data);
