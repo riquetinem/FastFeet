@@ -20,6 +20,7 @@ import {
 export default function Details() {
   const route = useRoute();
   const { delivery } = route.params;
+  const navigation = useNavigation();
   return (
     <LilBackground>
       <Card>
@@ -65,15 +66,18 @@ export default function Details() {
         </Session>
 
         <ListButtons>
-          <OptionButton onPress={() => {}}>
+          <OptionButton
+            onPress={() => navigation.navigate('Problem', { delivery })}>
             <Icon name="highlight-off" color="#E74040" size={30} />
             <TitleButton>Informar Problema</TitleButton>
           </OptionButton>
-          <OptionButton onPress={() => {}}>
+          <OptionButton
+            onPress={() => navigation.navigate('ListProblem', { delivery })}>
             <Icon name="info-outline" color="#E7BA40" size={30} />
             <TitleButton>Visualizar Problemas</TitleButton>
           </OptionButton>
-          <OptionButton onPress={() => {}}>
+          <OptionButton
+            onPress={() => navigation.navigate('Confirm', { delivery })}>
             <Icon name="event-available" color="#7D40E7" size={30} />
             <TitleButton>Confirmar Entrega</TitleButton>
           </OptionButton>

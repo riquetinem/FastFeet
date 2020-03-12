@@ -3,6 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Deliveries from '~/pages/Deliveries';
 import Details from '~/pages/Details';
+import Problem from '~/pages/Problem';
+import ListProblem from '~/pages/ListProblem';
+import Confirm from '~/pages/Confirm';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +30,48 @@ export default function DeliveryRoutes() {
         }}
         name="Details"
         component={Details}
+      />
+
+      <Stack.Screen
+        options={{
+          title: 'Informar problema',
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#7D40E7',
+            elevation: 0,
+          },
+        }}
+        name="Problem"
+        component={Problem}
+      />
+
+      <Stack.Screen
+        options={{
+          title: 'Visualizar problemas',
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#7D40E7',
+            elevation: 0,
+          },
+        }}
+        name="ListProblem"
+        component={ListProblem}
+      />
+
+      <Stack.Screen
+        options={{
+          title: 'Confirmar entrega',
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#7D40E7',
+            elevation: 0,
+          },
+        }}
+        name="Confirm"
+        component={Confirm}
       />
     </Stack.Navigator>
   );

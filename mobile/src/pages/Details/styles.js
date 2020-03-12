@@ -59,6 +59,9 @@ export const TitleButton = styled.Text`
 export const OptionButton = styled(RectButton)`
   background: #ffffff;
 
+  margin-left: -10px;
+  margin-right: 5px;
+
   display: flex;
   width: 120px;
   align-items: center;
