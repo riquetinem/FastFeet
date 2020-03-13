@@ -1,8 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 // import { Container } from './styles';
+import Camera from '~/components/Camera';
 
 export default function Confirm() {
-  return <View />;
+  const route = useRoute();
+  const { delivery } = route.params;
+
+  return <Camera delivery={delivery} />;
 }
