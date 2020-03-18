@@ -18,6 +18,7 @@ import api from '~/services/api';
 export default function Confirm() {
   const route = useRoute();
   const { delivery } = route.params;
+  const navigation = useNavigation();
 
   const [signature, setSignature] = useState('');
   const user = useSelector(state => state.user.profile);
@@ -37,8 +38,9 @@ export default function Confirm() {
   function sendImage() {
     Alert.alert(
       'Aviso!',
-      'Deseja realmente confirmar a entrega da encomenda?'[
-        ({
+      'Deseja realmente confirmar a entrega da encomenda?',
+      [
+        {
           text: 'Cancelar',
           styled: 'Cancel',
         },
@@ -61,12 +63,17 @@ export default function Confirm() {
                 data
               );
 
-              Alert.alert('Sucesso', 'Confirmação feita com sucesso');
+              Alert.alert('Sucesso', 'Confirmação feita com sucesso', [
+                {
+                  text: 'OK',
+                  onPress: () => navigation.navigate('Home'),
+                },
+              ]);
             } catch (err) {
               Alert.alert('Falha', 'Houve um erro na confirmação.');
             }
           },
-        })
+        },
       ]
     );
   }
