@@ -76,11 +76,19 @@ export default function Details() {
             <Icon name="info-outline" color="#E7BA40" size={30} />
             <TitleButton>Visualizar Problemas</TitleButton>
           </OptionButton>
-          <OptionButton
-            onPress={() => navigation.navigate('Confirm', { delivery })}>
-            <Icon name="event-available" color="#7D40E7" size={30} />
-            <TitleButton>Confirmar Entrega</TitleButton>
-          </OptionButton>
+          {delivery.status !== 'Pendente' ? (
+            <OptionButton
+              onPress={() => navigation.navigate('Confirm', { delivery })}>
+              <Icon name="event-available" color="#7D40E7" size={30} />
+              <TitleButton>Confirmar Entrega</TitleButton>
+            </OptionButton>
+          ) : (
+            <OptionButton
+              onPress={() => navigation.navigate('Withdraw', { delivery })}>
+              <Icon name="play-circle-outline" color="#82BF18" size={30} />
+              <TitleButton>Retirar Encomenda</TitleButton>
+            </OptionButton>
+          )}
         </ListButtons>
       </Card>
     </LilBackground>

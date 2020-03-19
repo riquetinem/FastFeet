@@ -30,6 +30,9 @@ routes.post('/users', UserController.store);
 // rota para criar uma sessao
 routes.post('/sessions', SessionController.store);
 
+// mostrar horarios disponiveis
+routes.get('/deliveryman/available', AvailableController.index);
+
 // rotas das funcionalidades do entregador
 routes.get('/deliveryman/:deliverymanId', DeliverymanController.index);
 // listar todas as encomendas do entregador
@@ -37,9 +40,6 @@ routes.get(
   '/deliveryman/:deliverymanId/deliveries/:menuContext',
   ViewDeliveriesController.index
 );
-
-// mostrar horarios disponiveis
-routes.get('/deliveryman/available', AvailableController.index);
 
 // alterar o status da entrega
 // retirar a entrega do fornecedor

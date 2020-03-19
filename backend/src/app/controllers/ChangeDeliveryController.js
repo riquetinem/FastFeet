@@ -25,7 +25,7 @@ class ChangeDeliveryController {
   // retirada da entrega do deepoisto pelo entregador
   async store(req, res) {
     const { deliveryId, deliverymanId } = req.params;
-    const { date } = req.query;
+    const { date } = req.body;
 
     if (!date) return res.status(400).json({ error: 'Invalid date' });
 
@@ -41,8 +41,8 @@ class ChangeDeliveryController {
 
     if (!delivery) return res.status(404).json({ error: 'Delivery not found' });
 
-    // transforma a data recebida par number
-    const searchDate = Number(date);
+    // transforma a data recebida para number
+    const searchDate = Number(new Date(date).getTime());
 
     // array da hora inicial e da hora final para poder ser feita a retirada das entregas
     const deliveryTime = ['08:00', '18:00'];

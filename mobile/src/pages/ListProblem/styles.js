@@ -1,10 +1,6 @@
-import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 
-export const LilBackground = styled.SafeAreaView.attrs({
-  enabled: Platform.OS === 'ios',
-  behavior: 'padding',
-})`
+export const LilBackground = styled.SafeAreaView`
   background: #7d40e7;
   display: flex;
   max-height: 70px;
@@ -13,10 +9,6 @@ export const LilBackground = styled.SafeAreaView.attrs({
 export const Container = styled.View`
   padding: 20px;
 `;
-
-// styled.FlatList.attrs({
-//  showsVerticalScrollIndicator: false,
-// })
 
 export const ListProblems = styled.FlatList.attrs({
   showVerticalScrollIndicator: false,

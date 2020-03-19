@@ -3,11 +3,7 @@ import { setHours, setMinutes, setSeconds, format, isAfter } from 'date-fns';
 // controller para retornar os horarios disponiveis naquele dia (pega por hora atual e o dia atual)
 class AvailableController {
   async index(req, res) {
-    const { date } = req.query;
-
-    if (!date) return res.status(400).json({ error: 'Invalid date' });
-
-    const searchDate = Number(date);
+    const searchDate = Number(new Date().getTime());
 
     const deliveryTime = [
       '08:00',

@@ -6,6 +6,7 @@ import Details from '~/pages/Details';
 import Problem from '~/pages/Problem';
 import ListProblem from '~/pages/ListProblem';
 import Confirm from '~/pages/Confirm';
+import Withdraw from '~/pages/Withdraw';
 
 const Stack = createStackNavigator();
 
@@ -72,6 +73,20 @@ export default function DeliveryRoutes() {
         }}
         name="Confirm"
         component={Confirm}
+      />
+
+      <Stack.Screen
+        options={{
+          title: 'Retirar encomenda',
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#7D40E7',
+            elevation: 0,
+          },
+        }}
+        name="Withdraw"
+        component={Withdraw}
       />
     </Stack.Navigator>
   );
