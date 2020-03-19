@@ -51,7 +51,7 @@ export default function Problem() {
             onChangeText={setDescription}
           />
 
-          <SubmitButton onPress={handleSubmit}>Entrar no sistema</SubmitButton>
+          <SubmitButton onPress={handleSubmit}>Adicionar problema</SubmitButton>
         </Form>
       </Container>
     </LilBackground>
