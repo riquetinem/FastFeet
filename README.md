@@ -53,6 +53,9 @@ You need create a database PostgreSQL and Redis to run backend
 # Go into backend
 $ cd backend
 
+# Clone .env.example to .env and complete with your information
+$ cp .env.example .env
+
 # Install dependencies
 $ yarn
 
@@ -76,6 +79,28 @@ $ yarn
 
 # Run the frontend
 $ yarn start
+```
+
+Now in the mobile (tests performed only on Android)
+```bash
+# On another terminal, go to the mobile folder
+$ cd ../mobile
+
+# Install dependencies
+$ yarn 
+
+# To start the mobile application you need the "react native" installed globally
+$ npm install -g react-native-cli
+# Or
+$ yarn global add react-native-cli
+
+# Insert or start emulator android
+
+# Run the mobile 
+$ react-native run-android
+
+# If the packer does not start automatically
+$ react-native start
 ```
 
 ## :memo: License
