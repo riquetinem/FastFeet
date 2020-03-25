@@ -16,6 +16,14 @@ import AvailableController from './app/controllers/AvailableController';
 import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 import ProblemsController from './app/controllers/ProblemsController';
 
+// importacao dos validators
+import validateSessionStore from './app/validators/SessionStore';
+import validateUserStore from './app/validators/UserStore';
+import validateProblemStore from './app/validators/ProblemStore';
+import validateDeliveryStore from './app/validators/DeliveryStore';
+import validateDeliverymanStore from './app/validators/DeliverymanStore';
+import validateDeliverymanUpdate from './app/validators/DeliverymanUpdate';
+
 // importacao das middlewares
 import authMiddleware from './app/middlewares/auth';
 
@@ -25,10 +33,10 @@ const upload = multer(multerConfig);
 // rotas sem autenticacao
 
 // rotas de usuario
-routes.post('/users', UserController.store);
+routes.post('/users', validateUserStore, UserController.store);
 
 // rota para criar uma sessao
-routes.post('/sessions', SessionController.store);
+routes.post('/sessions', validateSessionStore, SessionController.store);
 
 // mostrar horarios disponiveis
 routes.get('/deliveryman/available', AvailableController.index);
@@ -45,6 +53,7 @@ routes.get(
 // retirar a entrega do fornecedor
 routes.post(
   '/delivery/:deliveryId/start/:deliverymanId',
+  validateDeliveryStore,
   ChangeDeliveryController.store
 );
 // realizar a entrega da encomenda
@@ -56,7 +65,11 @@ routes.put(
 
 // rotas relacionadas a problema da entrega
 routes.get('/delivery/:deliveryId/problems', DeliveryProblemController.index);
-routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
+routes.post(
+  '/delivery/:deliveryId/problems',
+  validateProblemStore,
+  DeliveryProblemController.store
+);
 
 // setando a middleware para as rotas depois dela
 routes.use(authMiddleware);
@@ -72,8 +85,16 @@ routes.delete('/recipient/:recipientId', RecipientController.delete);
 
 // rotas de entregador
 routes.get('/deliveryman', DeliverymanController.index);
-routes.post('/deliveryman', DeliverymanController.store);
-routes.put('/deliveryman/:deliverymanId', DeliverymanController.update);
+routes.post(
+  '/deliveryman',
+  validateDeliverymanStore,
+  DeliverymanController.store
+);
+routes.put(
+  '/deliveryman/:deliverymanId',
+  validateDeliverymanUpdate,
+  DeliverymanController.update
+);
 routes.delete('/deliveryman/:deliverymanId', DeliverymanController.delete);
 
 // rotas de problemas da entrega

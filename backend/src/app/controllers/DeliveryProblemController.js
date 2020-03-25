@@ -1,5 +1,3 @@
-import * as Yup from 'yup';
-
 import DeliveryProblem from '../models/DeliveryProblem';
 import Delivery from '../models/Delivery';
 
@@ -20,13 +18,6 @@ class DeliveryProblemController {
   // cadastra problemas na entrega/encomenda
   async store(req, res) {
     const { deliveryId } = req.params;
-
-    const schema = Yup.object().shape({
-      description: Yup.string().required(),
-    });
-
-    if (!(await schema.isValid(req.body)))
-      return res.status(400).json({ erro: 'Validations fails' });
 
     const { description } = req.body;
 

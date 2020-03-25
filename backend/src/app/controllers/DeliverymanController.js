@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { Op } from 'sequelize';
 
 import Deliveryman from '../models/Deliveryman';
@@ -60,17 +59,6 @@ class DeliverymanController {
 
   // cria um novo entregador
   async store(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      email: Yup.string()
-        .email()
-        .required(),
-      avatar_id: Yup.number(),
-    });
-
-    if (!(await schema.isValid(req.body)))
-      return res.status(400).json({ error: 'Validations fails' });
-
     // verifica se o email ja esta em uso
     const deliverymanExists = await Deliveryman.findOne({
       where: { email: req.body.email },
@@ -91,15 +79,6 @@ class DeliverymanController {
   // faz as alteracoes no entregador
   async update(req, res) {
     const { deliverymanId } = req.params;
-
-    const schema = Yup.object().shape({
-      name: Yup.string(),
-      email: Yup.string().email(),
-      avatar_id: Yup.number(),
-    });
-
-    if (!(await schema.isValid(req.body)))
-      return res.status(400).json({ error: 'Validations fails' });
 
     const deliveryman = await Deliveryman.findByPk(deliverymanId);
 
