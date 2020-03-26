@@ -1,88 +1,21 @@
-import { Op } from 'sequelize';
-
-import Deliveryman from '../models/Deliveryman';
-import Recipient from '../models/Recipient';
 import Delivery from '../models/Delivery';
-import File from '../models/File';
 
-import DeliveryMail from '../jobs/DeliveryMail';
-import Queue from '../../lib/Queue';
+import IndexDeliveryService from '../services/IndexDeliveryService';
+import CreateDeliveryService from '../services/CreateDeliveryService';
+import UpdateDeliveryService from '../services/UpdateDeliveryService';
 
 // controller responsavel para as entregas
 class DeliveryController {
   // retorna todas as entregas
   async index(req, res) {
     const { deliveryId } = req.params;
-
-    if (deliveryId) {
-      const delivery = await Delivery.findByPk(deliveryId, {
-        include: [
-          {
-            model: Deliveryman,
-            as: 'deliveryman',
-            attributes: ['id', 'name'],
-          },
-          {
-            model: Recipient,
-            as: 'recipient',
-            attributes: ['id', 'name'],
-          },
-        ],
-      });
-
-      return res.json(delivery);
-    }
-    const whereStatement = {};
     const { q, page = 1 } = req.query;
 
-    const limit = 10;
-    const offset = (page - 1) * limit;
-
-    if (q) whereStatement.product = { [Op.iLike]: `%${q}%` };
-
-    const deliveries = await Delivery.findAndCountAll({
-      where: whereStatement,
-      order: ['id'],
-      limit,
-      offset,
-      include: [
-        {
-          model: File,
-          as: 'signature',
-          attributes: ['path', 'name', 'url'],
-        },
-        {
-          model: Deliveryman,
-          as: 'deliveryman',
-          attributes: ['name', 'email'],
-
-          include: [
-            {
-              model: File,
-              as: 'avatar',
-              attributes: ['path', 'name', 'url'],
-            },
-          ],
-        },
-        {
-          model: Recipient,
-          as: 'recipient',
-          attributes: [
-            'name',
-            'rua',
-            'cep',
-            'numero',
-            'estado',
-            'cidade',
-            'bairro',
-            'complemento',
-          ],
-        },
-      ],
+    const deliveries = await IndexDeliveryService.run({
+      deliveryId,
+      page,
+      product: q,
     });
-
-    const next = !(offset + limit >= deliveries.count);
-    deliveries.next = next;
 
     return res.json({ deliveries });
   }
@@ -91,42 +24,10 @@ class DeliveryController {
   async store(req, res) {
     const { deliveryman_id, recipient_id, product } = req.body;
 
-    const deliveryman = await Deliveryman.findByPk(deliveryman_id);
-
-    // verifica se o entregador realmente existe
-    if (!deliveryman)
-      return res.status(401).json({ error: 'Deliveryman not found' });
-
-    const recipient = await Recipient.findByPk(recipient_id);
-
-    // verifica se o destinatario realmente existe
-    if (!recipient)
-      return res.status(401).json({ error: 'Recipient not found' });
-
-    const { id } = await Delivery.create({
+    const delivery = await CreateDeliveryService.run({
       deliveryman_id,
       recipient_id,
       product,
-    });
-
-    const delivery = await Delivery.findByPk(id, {
-      include: [
-        {
-          model: Deliveryman,
-          as: 'deliveryman',
-          attributes: ['name', 'email'],
-        },
-        {
-          model: Recipient,
-          as: 'recipient',
-          attributes: ['name'],
-        },
-      ],
-    });
-
-    // envia um email para o entregador falando que ele possui uma nova entrega a ser feita
-    await Queue.add(DeliveryMail.key, {
-      delivery,
     });
 
     return res.json(delivery);
@@ -135,23 +36,12 @@ class DeliveryController {
   // faz alteracao na entrega
   async update(req, res) {
     const { deliveryId } = req.params;
+    const requestBody = req.body;
 
-    const delivery = await Delivery.findByPk(deliveryId, {
-      include: [
-        {
-          model: Deliveryman,
-          as: 'deliveryman',
-          attributes: ['name', 'email'],
-        },
-        {
-          model: Recipient,
-          as: 'recipient',
-          attributes: ['name'],
-        },
-      ],
+    const delivery = await UpdateDeliveryService.run({
+      deliveryId,
+      requestBody,
     });
-
-    delivery.update(req.body);
 
     return res.json(delivery);
   }

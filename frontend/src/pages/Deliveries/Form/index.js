@@ -52,19 +52,19 @@ export default function DeliveryForm({ match }) {
         const res = await api.get(`/delivery/${id}`);
 
         const deliverymanDefault = {
-          id: res.data.deliveryman.id,
-          title: res.data.deliveryman.name,
+          id: res.data.deliveries.deliveryman.id,
+          title: res.data.deliveries.deliveryman.name,
         };
 
         const recipientDefault = {
-          id: res.data.recipient.id,
-          title: res.data.recipient.name,
+          id: res.data.deliveries.recipient.id,
+          title: res.data.deliveries.recipient.name,
         };
 
-        res.data.deliverymanDefault = deliverymanDefault;
-        res.data.recipientDefault = recipientDefault;
+        res.data.deliveries.deliverymanDefault = deliverymanDefault;
+        res.data.deliveries.recipientDefault = recipientDefault;
 
-        setDelivery(res.data);
+        setDelivery(res.data.deliveries);
       }
     }
 
