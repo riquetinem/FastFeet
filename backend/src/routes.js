@@ -53,7 +53,6 @@ routes.get(
 // retirar a entrega do fornecedor
 routes.post(
   '/delivery/:deliveryId/start/:deliverymanId',
-  validateDeliveryStore,
   ChangeDeliveryController.store
 );
 // realizar a entrega da encomenda
@@ -109,7 +108,7 @@ routes.delete(
 // rotas de entregas
 routes.get('/delivery', DeliveryController.index);
 routes.get('/delivery/:deliveryId', DeliveryController.index);
-routes.post('/delivery', DeliveryController.store);
+routes.post('/delivery', validateDeliveryStore, DeliveryController.store);
 routes.put('/delivery/:deliveryId', DeliveryController.update);
 routes.delete('/delivery/:deliveryId', DeliveryController.delete);
 
