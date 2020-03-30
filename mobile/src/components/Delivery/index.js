@@ -21,7 +21,7 @@ import {
   OptionNavigation,
 } from './styles';
 
-export default function Deliveries({ delivery, ...rest }) {
+export default function Deliveries({ delivery }) {
   delivery.formatedData = useMemo(() => {
     return format(parseISO(delivery.createdAt), 'dd/MM/yyyy', {
       locale: pt,

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
 import { parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { useRoute } from '@react-navigation/native';
