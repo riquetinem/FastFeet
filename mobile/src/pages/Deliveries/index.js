@@ -72,6 +72,22 @@ export default function Deliveries() {
         const data = res.data.map(response => ({
           ...response,
           idFormated: `00${response.id}`.slice(-2),
+          endereco: `${response.recipient.rua}, ${response.recipient.numero}, ${response.recipient.cidade} - ${response.recipient.estado}, ${response.recipient.cep}`,
+          retirada:
+            response.start_date &&
+            format(parseISO(response.start_date), 'dd/MM/yyyy', {
+              locale: pt,
+            }),
+          entregue:
+            response.end_date &&
+            format(parseISO(response.end_date), 'dd/MM/yyyy', {
+              locale: pt,
+            }),
+          status: response.end_date
+            ? 'Entregue'
+            : response.start_date
+            ? 'Retirada'
+            : 'Pendente',
         }));
 
         setDeliveries(data);
@@ -79,7 +95,8 @@ export default function Deliveries() {
     }
 
     loadDeliveries();
-  }, [menuSelected, user.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuSelected]);
 
   function handleLogout() {
     dispatch(signOut());
@@ -91,14 +108,16 @@ export default function Deliveries() {
         <User>
           <Avatar
             source={{
-              uri: user.avatar
-                ? user.avatar.url
-                : `https://api.adorable.io/avatars/285/${user.name}.png`,
+              uri:
+                user && user.avatar
+                  ? user.avatar.url
+                  : `https://api.adorable.io/avatars/285/${user &&
+                      user.name}.png`,
             }}
           />
           <Welcome>
             <Message>Bem vindo de volta,</Message>
-            <Title>{user.name}</Title>
+            <Title>{user && user.name}</Title>
           </Welcome>
         </User>
 
