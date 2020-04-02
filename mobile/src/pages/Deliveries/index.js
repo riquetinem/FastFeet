@@ -29,13 +29,18 @@ import api from '~/services/api';
 
 import { signOut } from '~/store/modules/auth/actions';
 
-export default function Deliveries() {
+export default function Deliveries({ navigation }) {
   const [deliveries, setDeliveries] = useState([]);
   const [menuSelected, setMenuSelected] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   const user = useSelector(state => state.user.profile);
 
   const dispatch = useDispatch();
+
+  navigation.addListener('focus', () => {
+    setRefresh(!refresh);
+  });
 
   useEffect(() => {
     async function loadDeliveries() {
@@ -95,8 +100,9 @@ export default function Deliveries() {
     }
 
     loadDeliveries();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [menuSelected]);
+  }, [menuSelected, refresh]);
 
   function handleLogout() {
     dispatch(signOut());

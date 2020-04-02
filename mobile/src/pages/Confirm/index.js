@@ -25,8 +25,8 @@ export default function Confirm() {
 
   function openCamera() {
     ImagePicker.openCamera({
-      width: 350,
-      height: 500,
+      width: 250,
+      height: 100,
       cropping: true,
       includeBase64: true,
     }).then(image => {
@@ -54,6 +54,8 @@ export default function Confirm() {
                 name: signature.name,
                 size: signature.size,
               };
+
+              console.tron.log(file);
 
               const data = new FormData();
               data.append('file', file);
