@@ -31,7 +31,14 @@ This project was developed at the [RocketSeat GoStack Bootcamp](https://rocketse
 -  [History](https://www.npmjs.com/package/history)
 -  [Immer](https://github.com/immerjs/immer)
 -  [Polished](https://polished.js.org/)
--  [React-Toastify](https://fkhadra.github.io/react-toastify/)
+-  [React Navigation](https://reactnavigation.org/)
+-  [Image Crop Picker](https://github.com/ivpusic/react-native-image-crop-picker)
+-  [Date-fns](https://date-fns.org/)
+-  [Prop-Types](https://github.com/facebook/prop-types)
+-  [Yup](https://github.com/jquense/yup)
+-  [React Toastify](https://github.com/fkhadra/react-toastify)
+-  [React Navigation](https://reactnavigation.org/)
+-  [Reactjs Popup](https://github.com/yjose/reactjs-popup)
 -  [React-Icons](https://react-icons.netlify.com/)
 -  [Reactotron](https://infinite.red/reactotron)
 -  [VS Code][vc] with [EditorConfig][vceditconfig] and [ESLint][vceslint]
@@ -53,6 +60,12 @@ You need create a database PostgreSQL and Redis to run backend
 # Go into backend
 $ cd backend
 
+# If you are using the docker, you can use the following commands
+# POSTGRES
+$ sudo docker run --name databasename -e POSTGRES_PASSWORD=passwordhere -p 5432:5432 -d postgres
+# REDIS
+$ sudo docker run --name databasename -p 6379:6379 -d -t redis:alpine
+
 # Clone .env.example to .env and complete with your information
 $ cp .env.example .env
 
@@ -67,6 +80,9 @@ $ yarn sequelize db:seed:all
 
 # Run the backend
 $ yarn dev
+
+# If you want to use email sending, in another terminal run
+$ yarn queue
 ```
 
 Now in the frontend:
@@ -90,11 +106,10 @@ $ cd ../mobile
 $ yarn 
 
 # To start the mobile application you need the "react native" installed globally
-$ npm install -g react-native-cli
-# Or
 $ yarn global add react-native-cli
 
-# Insert or start emulator android
+# Start emulator android
+$ emulator -avd AVD-NAME
 
 # Run the mobile 
 $ react-native run-android
