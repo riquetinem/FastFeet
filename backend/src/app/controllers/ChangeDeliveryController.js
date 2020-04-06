@@ -1,4 +1,8 @@
+import { startOfDay, endOfDay } from 'date-fns';
+import { Op } from 'sequelize';
 import * as Yup from 'yup';
+
+import Delivery from '../models/Delivery';
 
 import WithdrawDeliveryService from '../services/WithdrawDeliveryService';
 import DeliveriedDeliveryService from '../services/DeliveriedDeliveryService';
@@ -13,10 +17,28 @@ class ChangeDeliveryController {
 
     if (!date) return res.status(400).json({ error: 'Invalid date' });
 
+    // transforma a data recebida para number
+    const searchDate = Number(new Date(date).getTime());
+
+    // verifica quantas entregas o entregador ja retirou
+    const { count } = await Delivery.findAndCountAll({
+      where: {
+        deliveryman_id: deliverymanId,
+        start_date: {
+          [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
+        },
+      },
+    });
+
+    if (count >= 5)
+      return res
+        .status(404)
+        .json({ error: 'You can only make five withdrawals a day' });
+
     const delivery = await WithdrawDeliveryService.run({
       deliverymanId,
       deliveryId,
-      date,
+      searchDate,
     });
 
     return res.json(delivery);

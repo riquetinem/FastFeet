@@ -24,6 +24,7 @@ export default function Confirm() {
   const user = useSelector(state => state.user.profile);
 
   function openCamera() {
+    // seta as configuracoes sobre a camera
     ImagePicker.openCamera({
       width: 250,
       height: 100,

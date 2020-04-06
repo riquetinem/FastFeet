@@ -38,6 +38,7 @@ export default function Deliveries({ navigation }) {
 
   const dispatch = useDispatch();
 
+  // faz com que seja carregado quando voltar para essa pagina
   navigation.addListener('focus', () => {
     setRefresh(!refresh);
   });

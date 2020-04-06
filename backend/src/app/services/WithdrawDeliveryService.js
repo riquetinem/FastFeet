@@ -1,6 +1,4 @@
 import {
-  startOfDay,
-  endOfDay,
   setHours,
   setMinutes,
   setSeconds,
@@ -8,13 +6,12 @@ import {
   isAfter,
   isBefore,
 } from 'date-fns';
-import { Op } from 'sequelize';
 
 import Deliveryman from '../models/Deliveryman';
 import Delivery from '../models/Delivery';
 
 class WithdrawDeliveryService {
-  async run({ deliverymanId, deliveryId, date }) {
+  async run({ deliverymanId, deliveryId, searchDate }) {
     const deliveryman = await Deliveryman.findByPk(deliverymanId);
 
     if (!deliveryman) throw new Error('Deliveryman not found');
@@ -25,9 +22,6 @@ class WithdrawDeliveryService {
     });
 
     if (!delivery) throw new Error('Delivery not found');
-
-    // transforma a data recebida para number
-    const searchDate = Number(new Date(date).getTime());
 
     // array da hora inicial e da hora final para poder ser feita a retirada das entregas
     const deliveryTime = ['08:00', '18:00'];
@@ -54,18 +48,6 @@ class WithdrawDeliveryService {
     // verifica se o horario eh valido
     if (!(availables[0].available && availables[1].available))
       throw new Error('Wait for delivery time');
-
-    // verifica quantas entregas o entregador ja retirou
-    const { count } = await Delivery.findAndCountAll({
-      where: {
-        deliveryman_id: deliverymanId,
-        start_date: {
-          [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
-        },
-      },
-    });
-
-    if (count > 5) throw new Error('You can only make five withdrawals a day');
 
     delivery.start_date = new Date();
     delivery.save();

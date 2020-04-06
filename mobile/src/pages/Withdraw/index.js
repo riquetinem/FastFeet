@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useSelector } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { LilBackground, Container, ListHour, Hour, TitleHour } from './styles';
