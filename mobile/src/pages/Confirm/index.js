@@ -55,8 +55,6 @@ export default function Confirm() {
                 size: signature.size,
               };
 
-              console.tron.log(file);
-
               const data = new FormData();
               data.append('file', file);
 

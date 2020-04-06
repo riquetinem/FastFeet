@@ -20,8 +20,17 @@ This project was developed at the [RocketSeat GoStack Bootcamp](https://rocketse
 
 -  [Node.js][nodejs]
 -  [Express](https://expressjs.com/)
--  [nodemon](https://github.com/remy/nodemon)
+-  [Nodemon](https://github.com/remy/nodemon)
+-  [JWT](https://jwt.io/)
 -  [Multer](https://github.com/expressjs/multer)
+-  [Bcrypt](https://www.npmjs.com/package/bcrypt)
+-  [Sequelize](http://docs.sequelizejs.com/)
+-  [PostgreSQL](https://www.postgresql.org/)
+-  [Youch](https://www.npmjs.com/package/youch)
+-  [Sentry](https://sentry.io/)
+-  [Bee Queue](https://www.npmjs.com/package/bcrypt)
+-  [Docker](https://www.docker.com/docker-community)
+-  [DotEnv](https://www.npmjs.com/package/dotenv)
 -  [ReactJS](https://reactjs.org/)
 -  [Redux](https://redux.js.org/)
 -  [Redux-Saga](https://redux-saga.js.org/)
@@ -112,10 +121,7 @@ $ yarn global add react-native-cli
 $ emulator -avd AVD-NAME
 
 # Run the mobile 
-$ react-native run-android
-
-# If the packer does not start automatically
-$ react-native start
+$ react-native run-android && react-native start
 ```
 
 ## :memo: License

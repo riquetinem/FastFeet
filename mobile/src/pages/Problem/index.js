@@ -20,7 +20,6 @@ export default function Problem() {
   const [description, setDescription] = useState('');
 
   async function handleSubmit() {
-    console.tron.log(description);
     try {
       const res = await api.post(`/delivery/${delivery.id}/problems`, {
         description,

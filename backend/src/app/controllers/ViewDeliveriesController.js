@@ -45,7 +45,7 @@ class ViewDeliveriesController {
 
       return res.json(deliveries);
     }
-    console.log('deliveried');
+
     // mostra apenas as que nao foram entregues, retiradas e que sao apenas do entregador
     const deliveries = await Delivery.findAll({
       where: {
