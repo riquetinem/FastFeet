@@ -107,7 +107,7 @@ export default function Deliverymens() {
             ))}
           </tbody>
         ) : (
-          <h1>Nenhuma encomenda foi encontrada</h1>
+          <h1>Nenhum entregador foi encontrado</h1>
         )}
       </Content>
       <PageButtons>

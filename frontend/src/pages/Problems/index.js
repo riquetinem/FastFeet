@@ -79,7 +79,7 @@ export default function Problems() {
             ))}
           </tbody>
         ) : (
-          <h1>Nenhum problema foi encontrado!</h1>
+          <h1>Nenhum problema foi encontrado</h1>
         )}
       </Content>
 

@@ -120,8 +120,11 @@ $ yarn global add react-native-cli
 # Start emulator android
 $ emulator -avd AVD-NAME
 
-# Run the mobile 
-$ react-native run-android && react-native start
+# Run the app (Android)
+$ react-native run-android
+
+# If you are using linux, run
+$ react-native start
 ```
 
 ## :memo: License
