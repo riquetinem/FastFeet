@@ -74,6 +74,8 @@ $ cd backend
 $ sudo docker run --name databasename -e POSTGRES_PASSWORD=passwordhere -p 5432:5432 -d postgres
 # REDIS
 $ sudo docker run --name databasename -p 6379:6379 -d -t redis:alpine
+# And to start the docker databases, run
+$ sudo docker start databasename
 
 # Clone .env.example to .env and complete with your information
 $ cp .env.example .env
